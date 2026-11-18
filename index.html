@@ -1,0 +1,1301 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Physics">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#eef1f6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1322" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<style>
+:root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+[hidden] { display: none !important; }
+button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+</style>
+<title>AQA Physics Revision</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: graph-paper ground, one centred working column, tab bar of study modes, topic chips as the shared filter */
+:root {
+  --bg: #eef1f6;
+  --grid: rgba(38, 67, 233, 0.07);
+  --surface: #ffffff;
+  --surface-2: #f5f7fb;
+  --ink: #14213d;
+  --muted: #5b6478;
+  --line: #d6dce8;
+  --accent: #2643e9;
+  --accent-ink: #ffffff;
+  --accent-soft: #e3e8ff;
+  --amber: #b9770e;
+  --amber-soft: #fff3d6;
+  --good: #1d8a4e;
+  --good-soft: #dff3e7;
+  --bad: #c43c3c;
+  --bad-soft: #fbe3e3;
+  /* system faces only, so the app needs no network once installed */
+  --font-display: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1322; --grid: rgba(123, 140, 255, 0.07); --surface: #151d31; --surface-2: #1b2540;
+    --ink: #e6eaf3; --muted: #9ba5ba; --line: #283352; --accent: #7d8eff; --accent-ink: #0d1322;
+    --accent-soft: #232e58; --amber: #f2b648; --amber-soft: #3a2f16; --good: #4cc483; --good-soft: #163626;
+    --bad: #f07575; --bad-soft: #3d1c22; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1322; --grid: rgba(123, 140, 255, 0.07); --surface: #151d31; --surface-2: #1b2540;
+  --ink: #e6eaf3; --muted: #9ba5ba; --line: #283352; --accent: #7d8eff; --accent-ink: #0d1322;
+  --accent-soft: #232e58; --amber: #f2b648; --amber-soft: #3a2f16; --good: #4cc483; --good-soft: #163626;
+  --bad: #f07575; --bad-soft: #3d1c22; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  min-height: 100vh;
+}
+.wrap {
+  max-width: 860px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 56px;
+  display: flex; flex-direction: column; gap: 18px;
+}
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.2; }
+h1 { font-size: 1.7rem; letter-spacing: -0.01em; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1.02rem; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.mono { font-family: var(--font-mono); }
+.eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+header.top { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.spec { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); }
+.streak { font-family: var(--font-mono); font-size: 0.82rem; padding: 4px 10px; border-radius: 999px; background: var(--amber-soft); color: var(--amber); font-weight: 600; }
+
+nav.tabs { display: flex; gap: 4px; overflow-x: auto; padding: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); scrollbar-width: none; }
+nav.tabs a { flex: 0 0 auto; text-decoration: none; color: var(--muted); font-weight: 600; font-size: 0.88rem; padding: 8px 12px; border-radius: 7px; }
+nav.tabs a:hover { color: var(--ink); background: var(--surface-2); }
+nav.tabs a[aria-current="page"] { background: var(--accent); color: var(--accent-ink); }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.between { justify-content: space-between; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+
+button, .btn { font: inherit; cursor: pointer; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 9px 14px; font-weight: 600; font-size: 0.9rem; }
+button:hover { border-color: var(--accent); }
+button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+button.ghost { background: transparent; }
+button:disabled { opacity: 0.5; cursor: default; }
+.chip { padding: 6px 11px; font-size: 0.82rem; border-radius: 999px; font-weight: 600; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+@media (max-width: 700px) {
+  .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: -18px; padding-inline: 18px; padding-block: 2px; -webkit-overflow-scrolling: touch; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chips .chip { flex: 0 0 auto; }
+}
+.chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.badge { display: inline-block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 5px; background: var(--amber-soft); color: var(--amber); vertical-align: middle; }
+.badge.topic { background: var(--accent-soft); color: var(--accent); }
+
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.stat { background: var(--surface-2); border-radius: 8px; padding: 10px 12px; }
+.stat b { display: block; font-family: var(--font-display); font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 0.78rem; color: var(--muted); }
+
+.topic-card { text-align: left; display: flex; flex-direction: column; gap: 8px; padding: 14px; font-weight: 400; }
+.topic-card .t-head { display: flex; gap: 8px; align-items: baseline; }
+.topic-card .num { font-family: var(--font-mono); color: var(--muted); font-size: 0.8rem; }
+.topic-card .name { font-family: var(--font-display); font-weight: 600; font-size: 1rem; }
+.meter { display: grid; grid-template-columns: 52px 1fr 40px; gap: 8px; align-items: center; font-size: 0.75rem; color: var(--muted); }
+.bar { height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
+.bar.q i { background: var(--amber); }
+.meter .v { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+.flash { min-height: 230px; display: flex; flex-direction: column; justify-content: center; gap: 12px; padding: 26px; cursor: pointer; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); text-align: left; font-weight: 400; font-size: 1.05rem; width: 100%; }
+.flash .side { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.flash .q { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; }
+.flash .a { border-top: 1px dashed var(--line); padding-top: 12px; color: var(--ink); }
+.rate { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.rate button { padding: 12px 6px; }
+.rate .again { border-color: var(--bad); color: var(--bad); }
+.rate .ok { border-color: var(--amber); color: var(--amber); }
+.rate .got { border-color: var(--good); color: var(--good); }
+.kbd { font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); font-weight: 400; display: block; }
+
+.options { display: flex; flex-direction: column; gap: 8px; }
+.opt { text-align: left; font-weight: 500; display: flex; gap: 10px; padding: 12px 14px; }
+.opt .k { font-family: var(--font-mono); color: var(--muted); }
+.opt:disabled { opacity: 1; cursor: default; }
+@media (hover: none) { .kbd { display: none !important; } }
+.opt.right { background: var(--good-soft); border-color: var(--good); }
+.opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
+.feedback { border-radius: 8px; padding: 12px 14px; }
+.feedback.good { background: var(--good-soft); }
+.feedback.bad { background: var(--bad-soft); }
+.feedback b { display: block; margin-bottom: 4px; }
+.progress { height: 4px; background: var(--surface-2); border-radius: 2px; overflow: hidden; }
+.progress i { display: block; height: 100%; background: var(--accent); transition: width .2s; }
+
+.givens { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.givens li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 12px; background: var(--surface-2); border-radius: 7px; }
+.givens .val { font-family: var(--font-mono); font-weight: 600; white-space: nowrap; }
+.eqline { font-family: var(--font-mono); font-size: 1.05rem; font-weight: 600; color: var(--accent); }
+.answer-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.answer-row input { font: inherit; font-family: var(--font-mono); font-size: 17px; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); width: 180px; max-width: 100%; }
+.unit { font-family: var(--font-mono); color: var(--muted); }
+.steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
+.steps .mono { font-weight: 600; }
+label.check { display: inline-flex; gap: 8px; align-items: center; font-size: 0.88rem; cursor: pointer; }
+
+.eq-item { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); }
+.eq-item:first-of-type { border-top: 0; }
+.eq-item .e { font-family: var(--font-mono); font-weight: 600; font-size: 1rem; color: var(--accent); cursor: pointer; }
+.eq-item .e.hidden { filter: blur(7px); user-select: none; }
+.sym { font-size: 0.82rem; color: var(--muted); }
+.sym .mono { color: var(--ink); }
+
+details.prac { border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+details.prac summary { cursor: pointer; padding: 14px 16px; display: flex; gap: 10px; align-items: center; justify-content: space-between; font-family: var(--font-display); font-weight: 600; list-style: none; }
+details.prac summary::-webkit-details-marker { display: none; }
+details.prac summary::after { content: "+"; font-family: var(--font-mono); color: var(--muted); }
+details.prac[open] summary::after { content: "−"; }
+details.prac .body { padding: 0 16px 16px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+details.prac ol, details.prac ul { margin: 0; padding-left: 20px; }
+.vars { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 0.9rem; }
+.vars dt { font-weight: 700; font-family: var(--font-mono); color: var(--accent); }
+.vars dd { margin: 0; }
+.empty { text-align: center; padding: 30px 10px; color: var(--muted); }
+.mistake-list { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 0.9rem; }
+
+@media (max-width: 560px) {
+  .stats { grid-template-columns: 1fr 1fr 1fr; }
+  .stat b { font-size: 1.2rem; }
+  .eq-item { grid-template-columns: 1fr; gap: 4px; }
+  .flash { padding: 20px; }
+  h1 { font-size: 1.4rem; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="spec">AQA GCSE Physics 8463 · Higher tier</div>
+      <h1>Physics Revision</h1>
+    </div>
+    <span class="streak" id="streak">Day streak: 0</span>
+  </header>
+  <nav class="tabs" id="tabs">
+    <a href="#home">Overview</a>
+    <a href="#cards">Flashcards</a>
+    <a href="#quiz">Quiz</a>
+    <a href="#calc">Calculations</a>
+    <a href="#equations">Equations</a>
+    <a href="#practicals">Required practicals</a>
+  </nav>
+  <main id="app" class="panel"><p class="muted">Loading questions…</p></main>
+  <p class="muted" style="font-size:0.78rem">Progress is saved in this browser on this device only. Equations use g = 9.8 N/kg, as on the AQA equation sheet.</p>
+</div>
+
+<script>
+/* AQA GCSE Physics (8463) revision content - separate science, Higher tier focus.
+   Defines window.PHYSICS_DATA. Items flagged ho:true are Higher tier only. */
+window.PHYSICS_DATA = {
+  topics: [
+    /* ============================== 1 ENERGY ============================== */
+    {
+      id: "energy", num: 1, name: "Energy",
+      cards: [
+        { q: "State the principle of conservation of energy.", a: "Energy cannot be created or destroyed. It can only be transferred usefully, stored or dissipated, so the total energy of a closed system stays the same.", ho: false },
+        { q: "Name some of the energy stores.", a: "Kinetic, gravitational potential, elastic potential, thermal, chemical, magnetic, electrostatic and nuclear.", ho: false },
+        { q: "Name the four ways energy can be transferred between stores.", a: "Mechanically (a force moving through a distance), electrically (charge moving through a potential difference), by heating (due to a temperature difference) and by radiation (e.g. light and sound waves).", ho: false },
+        { q: "Write the equation for kinetic energy and calculate the kinetic energy of a 1200 kg car travelling at 20 m/s.", a: "E_k = ½ m v². E_k = ½ × 1200 × 20² = 240 000 J (240 kJ).", ho: false },
+        { q: "Write the equation for gravitational potential energy and calculate the energy gained by a 5 kg mass lifted 3 m (g = 9.8 N/kg).", a: "E_p = m g h. E_p = 5 × 9.8 × 3 = 147 J.", ho: false },
+        { q: "What equation gives the energy stored in a stretched spring, and what condition applies?", a: "E_e = ½ k e², where k is the spring constant and e the extension. It applies only within the limit of proportionality (the spring has not been over-stretched).", ho: false },
+        { q: "Define specific heat capacity.", a: "The amount of energy needed to raise the temperature of 1 kg of a substance by 1 °C. Used in ΔE = m c Δθ.", ho: false },
+        { q: "Define power and give the unit.", a: "Power is the rate of energy transfer (or rate of doing work). Unit: watt (W), where 1 W = 1 J/s.", ho: false },
+        { q: "How is efficiency calculated, and why can it never be more than 100%?", a: "Efficiency = useful output energy transfer ÷ total input energy transfer (or useful power out ÷ total power in). It cannot exceed 1 (100%) because some energy is always dissipated, and energy is never created.", ho: false },
+        { q: "What happens to wasted energy?", a: "It is dissipated: transferred to the surroundings (mostly as thermal energy), where it is spread out and is less useful.", ho: false },
+        { q: "Give two ways to reduce unwanted energy transfers in a machine.", a: "Lubrication (reduces friction between moving parts) and thermal insulation (reduces energy transferred by heating to the surroundings).", ho: false },
+        { q: "How does the thermal conductivity and thickness of a wall affect the rate of energy transfer through it by conduction?", a: "A lower thermal conductivity gives a lower rate of energy transfer. A thicker wall also reduces the rate of energy transfer.", ho: false },
+        { q: "What is the difference between renewable and non-renewable energy resources? Give an example of each.", a: "Renewable resources are replenished as they are used (e.g. wind, solar, tidal, hydroelectric). Non-renewable resources will run out (e.g. coal, oil, gas, nuclear fuel).", ho: false },
+        { q: "Why are wind and solar power described as unreliable?", a: "Their output depends on the weather (wind speed, sunshine) and time of day, which cannot be controlled.", ho: false }
+      ],
+      mcq: [
+        { q: "A 0.5 kg ball moves at 4 m/s. What is its kinetic energy?", options: ["1 J", "8 J", "4 J", "16 J"], answer: 2, why: "E_k = ½ m v² = ½ × 0.5 × 4² = 4 J. 8 J comes from forgetting the ½; 1 J comes from forgetting to square the speed." },
+        { q: "How much energy is needed to raise the temperature of 2 kg of water by 10 °C? (specific heat capacity of water = 4200 J/kg °C)", options: ["8 400 J", "84 000 J", "840 J", "420 000 J"], answer: 1, why: "ΔE = m c Δθ = 2 × 4200 × 10 = 84 000 J." },
+        { q: "A motor receives 500 J of energy and wastes 150 J. What is its efficiency?", options: ["30%", "35%", "350%", "70%"], answer: 3, why: "Useful output = 500 − 150 = 350 J. Efficiency = 350 ÷ 500 = 0.70 = 70%. 30% is the wasted fraction, not the efficiency." },
+        { q: "A crane does 4800 J of work in 8 s. What is its power?", options: ["600 W", "60 W", "6000 W", "38 400 W"], answer: 0, why: "P = W ÷ t = 4800 ÷ 8 = 600 W. 38 400 W comes from multiplying instead of dividing." },
+        { q: "Which change would reduce the rate of energy transfer through the walls of a house?", options: ["Using a material with a higher thermal conductivity", "Making the walls thinner", "Using a material with a lower thermal conductivity", "Removing the insulation from the cavity"], answer: 2, why: "A lower thermal conductivity means energy is conducted more slowly. Thicker walls would also help; thinner walls or removing insulation would increase the rate." },
+        { q: "Which of these is a renewable energy resource?", options: ["Coal", "Natural gas", "Uranium", "Tidal power"], answer: 3, why: "Tides are continually replenished. Coal, gas and uranium are finite, non-renewable fuels." },
+        { q: "A skydiver falls at a constant terminal velocity. The energy lost from the gravitational potential store is mainly transferred to:", options: ["the kinetic store of the skydiver", "the thermal stores of the air and the skydiver", "the elastic store of the parachute", "no store, because it is lost completely"], answer: 1, why: "Kinetic energy is constant at terminal velocity, so the energy goes to the thermal stores through work done against air resistance. Energy is never lost completely." },
+        { q: "A spring with spring constant 40 N/m is stretched by 0.10 m (within its limit of proportionality). How much energy is stored?", options: ["0.2 J", "0.4 J", "2 J", "4 J"], answer: 0, why: "E_e = ½ k e² = ½ × 40 × 0.10² = 0.2 J. 0.4 J comes from forgetting the ½." },
+        { q: "A 2 kg mass is lifted 5 m. What gravitational potential energy does it gain? (g = 9.8 N/kg)", options: ["10 J", "49 J", "98 J", "196 J"], answer: 2, why: "E_p = m g h = 2 × 9.8 × 5 = 98 J." }
+      ]
+    },
+
+    /* ============================ 2 ELECTRICITY ============================ */
+    {
+      id: "electricity", num: 2, name: "Electricity",
+      cards: [
+        { q: "Define electric current and give the equation linking charge, current and time.", a: "Current is the rate of flow of electric charge. Q = I t (charge in coulombs, C; current in amperes, A; time in seconds, s).", ho: false },
+        { q: "Define potential difference.", a: "The energy transferred per unit charge passing between two points in a circuit. E = Q V; 1 volt = 1 joule per coulomb.", ho: false },
+        { q: "How are an ammeter and a voltmeter connected in a circuit?", a: "An ammeter is connected in series with the component. A voltmeter is connected in parallel across the component.", ho: false },
+        { q: "State the rules for current, potential difference and resistance in a series circuit.", a: "The current is the same everywhere. The supply pd is shared between the components. The total resistance is the sum of the individual resistances.", ho: false },
+        { q: "State the rules for a parallel circuit.", a: "The pd across each branch equals the supply pd. The total current is the sum of the currents in the branches. The total resistance is less than the smallest individual resistance.", ho: false },
+        { q: "What is an ohmic conductor?", a: "A conductor whose current is directly proportional to the pd across it, provided its temperature is constant. Its resistance is constant, so its I–V graph is a straight line through the origin.", ho: false },
+        { q: "Explain the shape of the I–V graph for a filament lamp.", a: "As current rises the filament gets hotter, the ions vibrate more and collide with electrons more often, so resistance increases. The graph curves and flattens.", ho: false },
+        { q: "Describe the I–V behaviour of a diode.", a: "Current flows in one direction only (forward). In the reverse direction the resistance is very high, so almost no current flows.", ho: false },
+        { q: "How do the resistances of an LDR and a thermistor change, and give a use of each.", a: "LDR: resistance decreases as light intensity increases (e.g. automatic night lights). Thermistor: resistance decreases as temperature increases (e.g. thermostats).", ho: false },
+        { q: "State the frequency and potential difference of UK mains, and the difference between a.c. and d.c.", a: "UK mains is 50 Hz at about 230 V. Alternating current (a.c.) repeatedly changes direction; direct current (d.c.) flows in one direction only.", ho: false },
+        { q: "Name the three wires in a mains cable, their colours, and their potentials.", a: "Live (brown): about 230 V. Neutral (blue): about 0 V. Earth (green and yellow stripes): 0 V, a safety wire.", ho: false },
+        { q: "How does the earth wire protect the user?", a: "If a fault connects the live wire to the metal casing, a large current flows through the earth wire, which melts the fuse (or trips the circuit breaker) and disconnects the appliance.", ho: false },
+        { q: "Give two equations for electrical power and calculate the power of a device using 5 A at 230 V.", a: "P = V I and P = I² R. P = 230 × 5 = 1150 W.", ho: false },
+        { q: "Why does the National Grid use step-up and step-down transformers?", a: "Step-up transformers raise the pd and so reduce the current for the same power. A lower current means less energy is wasted as heat in the cables (P = I² R). Step-down transformers then reduce the pd to safe levels for use.", ho: false },
+        { q: "Explain how static charge builds up when two insulators are rubbed together.", a: "Electrons are transferred from one surface to the other. The surface that gains electrons becomes negatively charged and the surface that loses them becomes positively charged. Like charges repel; unlike charges attract.", ho: false },
+        { q: "What is an electric field, and how is it drawn? (physics only)", a: "A region where a charged object experiences a non-contact force. Field lines point away from a positive charge and towards a negative charge; closer lines mean a stronger field.", ho: false }
+      ],
+      mcq: [
+        { q: "A current of 3 A flows for 20 s. How much charge flows?", options: ["6.7 C", "60 C", "23 C", "17 C"], answer: 1, why: "Q = I t = 3 × 20 = 60 C." },
+        { q: "What current flows through a 12 Ω resistor when the pd across it is 6 V?", options: ["72 A", "2 A", "18 A", "0.5 A"], answer: 3, why: "I = V ÷ R = 6 ÷ 12 = 0.5 A. 2 A comes from dividing the wrong way round." },
+        { q: "A 10 Ω resistor and a 20 Ω resistor are connected in parallel. What is the total resistance?", options: ["6.7 Ω", "15 Ω", "30 Ω", "10 Ω"], answer: 0, why: "In parallel the total resistance is less than the smallest resistor. 1/R = 1/10 + 1/20 = 3/20, so R = 6.7 Ω. 30 Ω is the series value." },
+        { q: "Two lamps are in series with a cell. An ammeter before the first lamp reads 0.4 A. What does an ammeter after the second lamp read?", options: ["0.8 A", "0.2 A", "0.4 A", "0 A"], answer: 2, why: "Current is the same everywhere in a series circuit. It is not used up by the lamps." },
+        { q: "A kettle is rated 2300 W and connected to 230 V mains. What current does it draw?", options: ["0.1 A", "10 A", "100 A", "529 A"], answer: 1, why: "I = P ÷ V = 2300 ÷ 230 = 10 A." },
+        { q: "A current of 2 A flows through a 5 Ω resistor. What is the power dissipated?", options: ["10 W", "50 W", "20 W", "100 W"], answer: 2, why: "P = I² R = 2² × 5 = 20 W. 10 W comes from forgetting to square the current." },
+        { q: "Why is electricity transmitted across the National Grid at very high potential difference?", options: ["To reduce the current so less energy is wasted as heat in the cables", "To increase the current so more energy is delivered", "To make the cables safer to touch", "To change a.c. into d.c."], answer: 0, why: "For a given power P = V I, a higher pd means a lower current. Heating losses depend on I², so they fall sharply." },
+        { q: "What happens to the resistance of an LDR when light gets brighter, and of a thermistor when the temperature rises?", options: ["LDR increases; thermistor increases", "LDR increases; thermistor decreases", "LDR decreases; thermistor increases", "LDR decreases; thermistor decreases"], answer: 3, why: "Both resistances decrease: the LDR with increasing light intensity, the thermistor with increasing temperature." },
+        { q: "Which wire in a UK mains cable is at about 230 V?", options: ["Neutral", "Live", "Earth", "Neutral and earth"], answer: 1, why: "The live wire carries the alternating pd (about 230 V). Neutral and earth are at about 0 V." },
+        { q: "A polythene rod rubbed with a cloth becomes negatively charged. What has happened?", options: ["Protons moved from the cloth to the rod", "Protons moved from the rod to the cloth", "Electrons moved from the cloth to the rod", "Electrons moved from the rod to the cloth"], answer: 2, why: "Only electrons move. The rod gains electrons, so it becomes negative; the cloth loses them and becomes positive." },
+        { q: "Why does the I–V graph of a filament lamp curve?", options: ["The lamp's resistance decreases as it heats up", "Current stops flowing at high pd", "More electrons are released from the filament", "The filament heats up, so resistance increases as ions vibrate more and collide with electrons more often"], answer: 3, why: "A hotter filament has a higher resistance, so the current rises less steeply as the pd increases." }
+      ]
+    },
+
+    /* ======================= 3 PARTICLE MODEL OF MATTER ======================= */
+    {
+      id: "particle", num: 3, name: "Particle model of matter",
+      cards: [
+        { q: "Describe the arrangement and movement of particles in a solid, a liquid and a gas.", a: "Solid: closely packed in a regular pattern, vibrating about fixed positions. Liquid: close together, irregular arrangement, moving past each other. Gas: far apart, moving randomly and quickly.", ho: false },
+        { q: "State the equation for density and its SI unit.", a: "Density ρ = mass ÷ volume (ρ = m / V). Unit: kg/m³.", ho: false },
+        { q: "Why is a gas much less dense than the same substance as a solid?", a: "The particles are much further apart, so there are far fewer particles (and less mass) in the same volume.", ho: false },
+        { q: "Describe how to find the density of an irregular solid.", a: "Measure its mass with a balance. Find its volume by displacement (eureka can and measuring cylinder). Then calculate ρ = m / V.", ho: false },
+        { q: "What happens to mass in a change of state, and what kind of change is it?", a: "Mass is conserved. A change of state is a physical change, not a chemical one, so it is reversible and the material recovers its original properties.", ho: false },
+        { q: "Define internal energy.", a: "The total kinetic energy and potential energy of all the particles (atoms and molecules) that make up a system.", ho: false },
+        { q: "What are the two possible effects of heating a system?", a: "Its temperature increases, or it changes state. Either way its internal energy increases.", ho: false },
+        { q: "Define specific latent heat and write the equation.", a: "The energy needed to change the state of 1 kg of a substance with no change in temperature. E = m L (J = kg × J/kg).", ho: false },
+        { q: "What is the difference between specific latent heat of fusion and of vaporisation?", a: "Fusion: change between solid and liquid (melting or freezing). Vaporisation: change between liquid and gas (boiling or condensing).", ho: false },
+        { q: "Why does the temperature stay constant on a heating curve while a substance is melting or boiling?", a: "The energy supplied increases the potential energy of the particles (breaking the bonds between them) rather than their kinetic energy, so the temperature does not rise.", ho: false },
+        { q: "Which equation do you use for a temperature change and which for a change of state?", a: "Temperature change: ΔE = m c Δθ (specific heat capacity). Change of state: E = m L (specific latent heat).", ho: false },
+        { q: "Explain how a gas exerts pressure on its container.", a: "Gas particles move randomly and collide with the walls. Each collision exerts a small force at right angles to the wall. The total force per unit area is the pressure.", ho: false },
+        { q: "Explain why heating a gas at constant volume increases its pressure.", a: "The temperature is related to the average kinetic energy of the particles, so they move faster, collide with the walls more often and with greater force.", ho: false },
+        { q: "State the relationship between the pressure and volume of a fixed mass of gas at constant temperature. (physics only)", a: "p V = constant. Decreasing the volume makes the particles hit the walls more often, so the pressure increases.", ho: false },
+        { q: "Explain why a bicycle pump gets warm when used. (physics only)", a: "Work is done on the gas, which transfers energy to its internal energy store, so its temperature rises.", ho: true }
+      ],
+      mcq: [
+        { q: "An object has a mass of 0.50 kg and a volume of 0.0020 m³. What is its density?", options: ["0.004 kg/m³", "250 kg/m³", "1000 kg/m³", "0.001 kg/m³"], answer: 1, why: "ρ = m ÷ V = 0.50 ÷ 0.0020 = 250 kg/m³. 0.004 comes from dividing volume by mass." },
+        { q: "The specific latent heat of fusion of ice is 334 000 J/kg. How much energy is needed to melt 2 kg of ice at 0 °C?", options: ["167 000 J", "334 000 J", "668 000 J", "1 336 000 J"], answer: 2, why: "E = m L = 2 × 334 000 = 668 000 J." },
+        { q: "During melting, the energy supplied to a solid is used to:", options: ["increase the potential energy of the particles by overcoming the bonds between them", "increase the kinetic energy of the particles", "raise the temperature of the substance", "increase the mass of the substance"], answer: 0, why: "The temperature stays constant during melting, so the kinetic energy does not change. The energy increases the particles' potential energy." },
+        { q: "Why is the density of a gas much lower than that of a liquid of the same substance?", options: ["Gas particles have less mass than liquid particles", "Gas particles are smaller than liquid particles", "Gas particles move faster", "There is much more space between the particles"], answer: 3, why: "The particles are the same; there are simply far fewer in each cubic metre because they are further apart." },
+        { q: "Which statement about a change of state is correct?", options: ["New chemical substances are formed", "Mass is conserved and the change is reversible", "The mass of the substance changes", "The particles themselves change"], answer: 1, why: "A change of state is a physical change: the particles are unchanged and the mass is conserved. The substance can return to its original state." },
+        { q: "A gas at 100 kPa has a volume of 600 cm³. It is compressed to 200 cm³ at constant temperature. What is the new pressure?", options: ["33 kPa", "200 kPa", "300 kPa", "100 kPa"], answer: 2, why: "p V is constant: 100 × 600 = p × 200, so p = 300 kPa. Volume falls to one third, so pressure triples." },
+        { q: "Why does the pressure of a gas in a rigid sealed container rise when it is heated?", options: ["The particles move faster, so they hit the walls more often and with greater force", "The particles get bigger and hit the walls more", "More particles are created", "The particles slow down and stick to the walls"], answer: 0, why: "Higher temperature means greater average kinetic energy, so more frequent and harder collisions with the walls." },
+        { q: "The specific latent heat of vaporisation of water is 2 260 000 J/kg. How much energy is needed to boil away 0.10 kg of water already at 100 °C?", options: ["22 600 J", "2 260 000 J", "2.26 J", "226 000 J"], answer: 3, why: "E = m L = 0.10 × 2 260 000 = 226 000 J." },
+        { q: "Why does the air in a bicycle pump get hot when it is compressed quickly?", options: ["Friction between the pump and the air only", "Work done on the air increases its internal energy, so its temperature rises", "The air particles slow down and lose kinetic energy", "Pressure itself is a form of heat"], answer: 1, why: "Doing work on a gas transfers energy to the gas particles, raising their average kinetic energy and hence the temperature.", ho: true }
+      ]
+    },
+
+    /* ========================== 4 ATOMIC STRUCTURE ========================== */
+    {
+      id: "atomic", num: 4, name: "Atomic structure",
+      cards: [
+        { q: "Describe the size and structure of an atom.", a: "Radius about 1 × 10⁻¹⁰ m. A small central nucleus of protons and neutrons (radius less than 1/10 000 of the atom) surrounded by electrons in energy levels (shells).", ho: false },
+        { q: "State the relative charge and relative mass of a proton, neutron and electron.", a: "Proton: +1, mass 1. Neutron: 0, mass 1. Electron: −1, mass very small (negligible).", ho: false },
+        { q: "Define atomic number and mass number, and how ions form.", a: "Atomic number = number of protons (= number of electrons in a neutral atom). Mass number = protons + neutrons. An atom becomes an ion by gaining or losing electrons.", ho: false },
+        { q: "What are isotopes?", a: "Atoms of the same element (same number of protons) with different numbers of neutrons, so different mass numbers.", ho: false },
+        { q: "Describe how the plum pudding model was replaced by the nuclear model.", a: "Plum pudding: a ball of positive charge with embedded electrons. In the alpha scattering experiment most alpha particles passed straight through, some were deflected and a very few bounced back. So the atom is mostly empty space with a small, dense, positive nucleus containing most of the mass.", ho: false },
+        { q: "What did Bohr and Chadwick contribute to the model of the atom?", a: "Bohr: electrons orbit the nucleus at specific distances (energy levels). Chadwick: provided evidence for the neutron.", ho: false },
+        { q: "Describe alpha radiation.", a: "A helium nucleus (2 protons + 2 neutrons). Strongly ionising, short range in air (a few cm), stopped by paper or skin.", ho: false },
+        { q: "Describe beta (β⁻) radiation.", a: "A fast-moving electron emitted from the nucleus when a neutron changes into a proton. Moderately ionising, travels further in air than alpha, stopped by a few mm of aluminium.", ho: false },
+        { q: "Describe gamma radiation, and mention neutron emission.", a: "Gamma is a high-frequency electromagnetic wave from the nucleus. Weakly ionising, very penetrating, reduced by thick lead or concrete. Neutrons can also be emitted by some nuclei.", ho: false },
+        { q: "How do alpha and beta decay change a nucleus? Give an example equation for alpha decay.", a: "Alpha: mass number falls by 4, atomic number by 2. Beta: atomic number rises by 1, mass number unchanged. Gamma: no change. Example: ²³⁸₉₂U → ²³⁴₉₀Th + ⁴₂He.", ho: false },
+        { q: "Define half-life.", a: "The time taken for the number of unstable nuclei in a sample to halve, or the time for the count rate (activity) to fall to half its initial value. Decay is random.", ho: false },
+        { q: "A source has an activity of 800 Bq. What is its activity after 3 half-lives, as a ratio and a value?", a: "After n half-lives the activity is 1/2ⁿ of the original. After 3: ratio 1:8, so 800 ÷ 8 = 100 Bq.", ho: true },
+        { q: "What is the difference between irradiation and contamination?", a: "Contamination: unwanted radioactive atoms on or in an object or person (hazard continues until removed). Irradiation: exposure to radiation from an outside source; the object does not become radioactive.", ho: false },
+        { q: "Describe nuclear fission. (physics only)", a: "A large unstable nucleus (e.g. uranium-235) absorbs a neutron and splits into two smaller nuclei, releasing two or three neutrons and energy as radiation. The neutrons can cause further fission in a chain reaction.", ho: false },
+        { q: "Describe nuclear fusion and why it needs extreme conditions. (physics only)", a: "Two light nuclei join to form a heavier nucleus, and some mass is converted to energy released as radiation. Very high temperature and pressure are needed to overcome the electrostatic repulsion between the positive nuclei.", ho: false }
+      ],
+      mcq: [
+        { q: "Carbon-12 and carbon-14 are isotopes. They differ in their number of:", options: ["protons", "electrons", "atomic number", "neutrons"], answer: 3, why: "Isotopes have the same number of protons (so the same atomic number) but different numbers of neutrons." },
+        { q: "Radium-226 (atomic number 88) emits an alpha particle. What are the mass number and atomic number of the new nucleus?", options: ["mass 222, atomic number 86", "mass 224, atomic number 86", "mass 222, atomic number 87", "mass 226, atomic number 89"], answer: 0, why: "Alpha emission removes 4 from the mass number (226 → 222) and 2 from the atomic number (88 → 86)." },
+        { q: "Carbon-14 (atomic number 6) undergoes beta-minus decay. What is the new nucleus?", options: ["Carbon-13", "Nitrogen-14", "Boron-14", "Nitrogen-13"], answer: 1, why: "In beta-minus decay a neutron becomes a proton: atomic number 6 → 7 (nitrogen) and mass number stays 14." },
+        { q: "An 80 g sample of a radioactive isotope has a half-life of 5 days. How much of the isotope remains after 15 days?", options: ["40 g", "20 g", "10 g", "5 g"], answer: 2, why: "15 days is 3 half-lives: 80 → 40 → 20 → 10 g." },
+        { q: "Which observation in the alpha scattering experiment showed that the atom has a small, dense, positive nucleus?", options: ["All alpha particles passed straight through", "Most alpha particles were absorbed by the foil", "Alpha particles were attracted towards the foil", "A very small number of alpha particles were deflected through large angles or bounced back"], answer: 3, why: "Only a tiny, concentrated positive charge could repel an alpha particle backwards. That most passed through shows the atom is mostly empty space." },
+        { q: "Which type of radiation is stopped by a sheet of paper?", options: ["Alpha", "Beta", "Gamma", "Alpha and beta"], answer: 0, why: "Alpha particles are stopped by paper. Beta needs a few mm of aluminium; gamma needs thick lead or concrete." },
+        { q: "Which is an example of contamination rather than irradiation?", options: ["A patient is X-rayed in hospital", "A worker spills radioactive liquid on their clothes", "A pilot is exposed to cosmic rays", "Medical equipment is sterilised by gamma rays"], answer: 1, why: "Contamination means radioactive material gets on or in something. The other examples are exposure to radiation from an outside source." },
+        { q: "Why does nuclear fusion need very high temperatures?", options: ["To split the nuclei apart", "To melt the fuel", "To overcome the electrostatic repulsion between the positive nuclei", "To produce neutrons"], answer: 2, why: "Nuclei are positively charged and repel each other. They must collide at very high speed to get close enough to fuse." },
+        { q: "The activity of a source falls from 640 Bq to 40 Bq. How many half-lives have passed?", options: ["4", "2", "8", "16"], answer: 0, why: "640 → 320 → 160 → 80 → 40 is 4 halvings. The ratio is 16 = 2⁴. (16 is the ratio, not the number of half-lives.)", ho: false },
+        { q: "What makes a chain reaction possible in a nuclear reactor?", options: ["Alpha particles split the uranium nuclei", "Protons are fired at the uranium", "Electrons from fission cause further fission", "Neutrons released by one fission cause other nuclei to split"], answer: 3, why: "Each fission releases two or three neutrons, which can be absorbed by other nuclei and cause them to split." }
+      ]
+    },
+
+    /* ============================== 5 FORCES ============================== */
+    {
+      id: "forces", num: 5, name: "Forces",
+      cards: [
+        { q: "What is the difference between a scalar and a vector? Give examples.", a: "A scalar has magnitude only (speed, distance, mass, energy). A vector has magnitude and direction (velocity, displacement, force, acceleration, weight, momentum).", ho: false },
+        { q: "Distinguish mass and weight, and give the equation for weight.", a: "Mass is the amount of matter (kg, scalar). Weight is the force of gravity on the mass (N, vector). W = m g, where g = 9.8 N/kg on Earth.", ho: false },
+        { q: "What is a resultant force?", a: "A single force that has the same effect as all the forces acting on an object. If it is zero the forces are balanced and the object's motion does not change.", ho: false },
+        { q: "How can a force be resolved into two components? (Higher tier)", a: "Draw the force as a vector, then split it into two perpendicular components (e.g. horizontal and vertical) using a scale diagram, so that the two components together have the same effect as the original force.", ho: true },
+        { q: "Define work done and state the equation.", a: "Work done is energy transferred by a force moving through a distance. W = F s (J = N × m). Work done against friction transfers energy to the thermal store.", ho: false },
+        { q: "State Hooke's law and what the gradient of a force–extension graph shows.", a: "Extension is directly proportional to force, up to the limit of proportionality: F = k e. The gradient of the linear part is the spring constant k (N/m).", ho: false },
+        { q: "State the principle of moments and the equation for a moment.", a: "M = F d (N m). For an object in equilibrium, the total clockwise moment about a pivot equals the total anticlockwise moment. Levers and gears transmit the rotational effect of a force.", ho: false },
+        { q: "State the equations for pressure and for pressure in a liquid. (physics only)", a: "p = F / A (Pa = N/m²). In a liquid p = h ρ g: pressure increases with depth h and with liquid density ρ.", ho: false },
+        { q: "Explain the origin of upthrust and when an object floats. (physics only)", a: "Pressure on the bottom of a submerged object is greater than on the top, giving a resultant upward force (upthrust). An object floats when its weight equals the upthrust.", ho: false },
+        { q: "What does the gradient of a distance–time graph show, and what does a horizontal line show?", a: "Gradient = speed. A horizontal line means the object is stationary. A curve means changing speed.", ho: false },
+        { q: "How do you find the speed at a given time from a curved distance–time graph? (Higher tier)", a: "Draw a tangent to the curve at that time and calculate its gradient (change in distance ÷ change in time).", ho: true },
+        { q: "What do the gradient and the area under a velocity–time graph show?", a: "Gradient = acceleration. Area under the graph = distance travelled. A negative gradient shows deceleration.", ho: false },
+        { q: "State Newton's first and second laws.", a: "First: a resultant force of zero means a stationary object stays at rest and a moving object continues at constant velocity. Second: F = m a, so acceleration is proportional to resultant force and inversely proportional to mass.", ho: false },
+        { q: "State Newton's third law.", a: "Whenever two objects interact, the forces they exert on each other are equal in size and opposite in direction. The forces act on different objects.", ho: false },
+        { q: "Explain terminal velocity.", a: "A falling object accelerates, and air resistance increases with speed until it equals the weight. The resultant force is then zero, so the object falls at constant (terminal) velocity.", ho: false },
+        { q: "What is stopping distance, and what affects it?", a: "Stopping distance = thinking distance + braking distance. Thinking distance depends on speed and reaction time (tiredness, alcohol, drugs, distraction). Braking distance depends on speed, mass, road and weather conditions, and the state of brakes and tyres.", ho: false },
+        { q: "State the equation for momentum and the law of conservation of momentum.", a: "p = m v (kg m/s). In a closed system the total momentum before an event equals the total momentum after it.", ho: false },
+        { q: "Write the force–momentum equation and use it to explain car safety features. (Higher tier)", a: "F = m Δv / Δt. Airbags, crumple zones and seatbelts increase the time taken for the momentum to change, so the force on the person is smaller.", ho: true }
+      ],
+      mcq: [
+        { q: "Which pair contains only vector quantities?", options: ["Speed and distance", "Velocity and force", "Mass and weight", "Energy and acceleration"], answer: 1, why: "Velocity and force have direction. Speed, distance, mass and energy are scalars; weight and acceleration are vectors." },
+        { q: "A 1500 kg car has a resultant force of 3000 N acting on it. What is its acceleration?", options: ["0.5 m/s²", "4 500 000 m/s²", "2 m/s²", "1500 m/s²"], answer: 2, why: "a = F ÷ m = 3000 ÷ 1500 = 2 m/s²." },
+        { q: "An astronaut of mass 60 kg stands on the Moon, where g = 1.6 N/kg. What is the astronaut's weight?", options: ["96 N", "588 N", "60 N", "37.5 N"], answer: 0, why: "W = m g = 60 × 1.6 = 96 N. 588 N would be the weight on Earth; mass does not change." },
+        { q: "A 20 N force acts 0.50 m from a pivot. What force at 0.25 m on the other side balances it?", options: ["20 N", "10 N", "80 N", "40 N"], answer: 3, why: "Clockwise moment = 20 × 0.50 = 10 N m. F × 0.25 = 10, so F = 40 N. Closer to the pivot needs a bigger force." },
+        { q: "A spring has a spring constant of 25 N/m and is stretched by 0.20 m (within its limit). What force is applied?", options: ["125 N", "0.008 N", "5 N", "50 N"], answer: 2, why: "F = k e = 25 × 0.20 = 5 N." },
+        { q: "A car accelerates uniformly from rest to 10 m/s in 5 s. What distance does it travel in this time?", options: ["10 m", "25 m", "50 m", "12.5 m"], answer: 1, why: "The area under the velocity–time graph is a triangle: ½ × 5 × 10 = 25 m. 50 m would assume a constant 10 m/s." },
+        { q: "A skydiver is falling at terminal velocity. Which statement is correct?", options: ["Weight is greater than air resistance", "Air resistance is greater than weight", "Air resistance equals weight, so the resultant force is zero", "Gravity has stopped acting on the skydiver"], answer: 2, why: "Forces are balanced, so there is no acceleration. Gravity still acts, which is why the weight is balanced by drag." },
+        { q: "A 2 kg trolley moving at 3 m/s collides with a stationary 1 kg trolley and they stick together. What is their speed after the collision?", options: ["2 m/s", "1 m/s", "3 m/s", "4.5 m/s"], answer: 0, why: "Momentum before = 2 × 3 = 6 kg m/s. After: 6 = 3 × v, so v = 2 m/s." },
+        { q: "A force of 600 N acts on an area of 0.020 m². What is the pressure?", options: ["12 Pa", "30 000 Pa", "300 Pa", "12 000 Pa"], answer: 1, why: "p = F ÷ A = 600 ÷ 0.020 = 30 000 Pa." },
+        { q: "A car brakes with a constant braking force. If its speed doubles, its braking distance:", options: ["doubles", "triples", "quadruples", "stays the same"], answer: 2, why: "The work done by the brakes equals the kinetic energy, and kinetic energy depends on v². Double the speed means four times the energy, so about four times the distance." },
+        { q: "A 70 kg passenger slows from 15 m/s to rest in 0.50 s in a crash. What average force acts on them?", options: ["1050 N", "525 N", "4200 N", "2100 N"], answer: 3, why: "F = m Δv / Δt = 70 × 15 ÷ 0.50 = 2100 N. 1050 N is the momentum change (70 × 15) with the division by the time forgotten.", ho: true },
+        { q: "Why does a ship float in water?", options: ["The upthrust equals the ship's weight", "The ship has no weight in water", "Water pressure acts only upwards on the ship", "The ship's density is greater than the density of water"], answer: 0, why: "The pressure difference gives an upthrust. When it equals the weight the resultant force is zero and the ship floats. The ship's average density is less than water's." }
+      ]
+    },
+
+    /* ============================== 6 WAVES ============================== */
+    {
+      id: "waves", num: 6, name: "Waves",
+      cards: [
+        { q: "Distinguish transverse and longitudinal waves with examples.", a: "Transverse: oscillations perpendicular to the direction of energy transfer (light and all EM waves, ripples, S-waves). Longitudinal: oscillations parallel to it, with compressions and rarefactions (sound, P-waves).", ho: false },
+        { q: "Define amplitude, wavelength, frequency and period.", a: "Amplitude: maximum displacement from the rest position. Wavelength: distance between corresponding points on adjacent waves. Frequency: number of waves per second (Hz). Period = 1 / frequency (s).", ho: false },
+        { q: "State the wave equation and calculate the speed of a wave of frequency 5 Hz and wavelength 2 m.", a: "v = f λ. v = 5 × 2 = 10 m/s.", ho: false },
+        { q: "State the law of reflection, and distinguish specular and diffuse reflection.", a: "Angle of incidence = angle of reflection (both measured from the normal). Specular reflection is from a smooth surface, giving a clear reflection. Diffuse reflection is from a rough surface and scatters light in many directions.", ho: false },
+        { q: "What is refraction and how does a wave bend at a boundary into a denser medium?", a: "Refraction is a change in direction when a wave crosses a boundary because its speed changes. Entering a medium where it travels slower, it bends towards the normal. The frequency stays the same.", ho: false },
+        { q: "State the range of human hearing and what ultrasound is. Give one use of ultrasound. (physics only)", a: "Human hearing: about 20 Hz to 20 kHz. Ultrasound has frequency above 20 000 Hz. Uses: medical imaging (e.g. foetal scans), industrial flaw detection, sonar.", ho: false },
+        { q: "How do P-waves and S-waves differ, and what do they tell us about the Earth? (physics only)", a: "P-waves are longitudinal and travel through solids and liquids. S-waves are transverse and travel only through solids. S-waves are not detected through the core, showing the outer core is liquid.", ho: false },
+        { q: "List the electromagnetic spectrum in order from longest to shortest wavelength.", a: "Radio waves, microwaves, infrared, visible light, ultraviolet, X-rays, gamma rays. All are transverse and travel at the same speed in a vacuum.", ho: false },
+        { q: "Give a use of each type of EM wave.", a: "Radio: broadcasting and communication. Microwaves: satellite communication and cooking. Infrared: heaters, thermal imaging, remote controls. Visible light: fibre optic communication, photography. Ultraviolet: security marking, fluorescent lamps. X-rays and gamma: medical imaging and treatment.", ho: false },
+        { q: "Which EM waves are hazardous to the human body and why?", a: "Ultraviolet can cause skin ageing, skin cancer and eye damage. X-rays and gamma rays are ionising: they can damage cells and cause mutations and cancer.", ho: false },
+        { q: "How are radio waves produced and detected? (Higher tier)", a: "Radio waves are produced by oscillations in an electrical circuit. When absorbed by a conductor they create an alternating current with the same frequency as the wave.", ho: true },
+        { q: "Compare convex and concave lenses. (physics only)", a: "A convex (converging) lens brings parallel rays together at the principal focus. A concave (diverging) lens spreads parallel rays out so they appear to come from the principal focus.", ho: false },
+        { q: "Distinguish real and virtual images, and give the magnification equation. (physics only)", a: "A real image is formed where rays actually meet and can be projected onto a screen. A virtual image is where rays appear to come from and cannot be projected. Magnification = image height ÷ object height.", ho: false },
+        { q: "Explain why a coloured object appears the colour it does. (physics only)", a: "It reflects (or transmits) its own colour and absorbs the other colours. White objects reflect all colours; black objects absorb all. A filter transmits only its own colour.", ho: false },
+        { q: "What is black body radiation? (physics only)", a: "A perfect black body absorbs all radiation incident on it and is also the best emitter. The radiation it emits depends only on its temperature: as the temperature rises, the intensity increases and the peak wavelength gets shorter.", ho: false }
+      ],
+      mcq: [
+        { q: "A wave has a frequency of 50 Hz and a wavelength of 0.40 m. What is its speed?", options: ["125 m/s", "20 m/s", "0.008 m/s", "50.4 m/s"], answer: 1, why: "v = f λ = 50 × 0.40 = 20 m/s. 125 m/s comes from dividing frequency by wavelength." },
+        { q: "Which of these is a transverse wave?", options: ["Sound waves in air", "Ultrasound", "P-waves", "Light waves"], answer: 3, why: "All electromagnetic waves are transverse. Sound, ultrasound and P-waves are longitudinal." },
+        { q: "Which EM wave has the highest frequency?", options: ["Gamma rays", "Ultraviolet", "Microwaves", "Infrared"], answer: 0, why: "Gamma rays have the shortest wavelength and so the highest frequency in the EM spectrum." },
+        { q: "Light passes from air into glass. Which quantity does not change?", options: ["Speed", "Wavelength", "Frequency", "Direction of travel (along the normal)"], answer: 2, why: "The frequency is set by the source. The speed and wavelength both decrease in glass." },
+        { q: "A sonar pulse returns to a ship after 0.80 s. Sound travels at 1500 m/s in water. How deep is the water?", options: ["1200 m", "300 m", "1875 m", "600 m"], answer: 3, why: "The pulse travels down and back, so distance = 1500 × 0.80 ÷ 2 = 600 m. 1200 m forgets to halve." },
+        { q: "S-waves from an earthquake are not detected on the opposite side of the Earth. Why?", options: ["The Earth's core is too dense for any waves", "The outer core is liquid and S-waves cannot travel through liquids", "S-waves are absorbed by the atmosphere", "S-waves travel faster than P-waves"], answer: 1, why: "S-waves are transverse and travel only through solids. Their absence behind the core shows part of the core is liquid." },
+        { q: "Which of these EM waves is ionising?", options: ["Infrared", "Microwaves", "Gamma rays", "Visible light"], answer: 2, why: "Gamma rays (and X-rays and high-frequency ultraviolet) can remove electrons from atoms and damage cells." },
+        { q: "An object 4 mm high produces an image 12 mm high through a lens. What is the magnification?", options: ["3", "8", "0.33", "48"], answer: 0, why: "Magnification = image height ÷ object height = 12 ÷ 4 = 3. 0.33 is the inverse." },
+        { q: "A green leaf is viewed in pure red light. What colour does it appear?", options: ["Green", "Black", "Red", "White"], answer: 1, why: "The leaf reflects only green light and absorbs red, so no light reaches the eye and it looks black." },
+        { q: "A ray hits a plane mirror at 30° to the surface of the mirror. What is the angle of reflection?", options: ["30°", "90°", "60°", "120°"], answer: 2, why: "Angles are measured from the normal. The angle of incidence is 90° − 30° = 60°, and the angle of reflection equals it." }
+      ]
+    },
+
+    /* =================== 7 MAGNETISM AND ELECTROMAGNETISM =================== */
+    {
+      id: "magnetism", num: 7, name: "Magnetism and electromagnetism",
+      cards: [
+        { q: "State the rules for magnetic poles and name the magnetic materials.", a: "Like poles repel, unlike poles attract (non-contact forces). The magnetic materials are iron, steel, cobalt and nickel. An induced magnet always attracts and loses most of its magnetism when removed from the field.", ho: false },
+        { q: "What is a magnetic field and how is it shown?", a: "The region where a magnet or magnetic material experiences a force. Field lines run from north to south; the field is strongest where the lines are closest (at the poles).", ho: false },
+        { q: "Why does a compass point north?", a: "A compass needle is a small bar magnet that lines up with the Earth's magnetic field, which shows that the Earth has a magnetic core.", ho: false },
+        { q: "Describe the magnetic field around a current-carrying wire.", a: "Concentric circles around the wire. The field is stronger with a larger current and closer to the wire. Reversing the current reverses the field direction.", ho: false },
+        { q: "How can the magnetic field of a solenoid be made stronger?", a: "Increase the current, add more turns, or add an iron core. Outside it is like a bar magnet; inside it is strong and uniform.", ho: false },
+        { q: "What is the motor effect?", a: "A conductor carrying a current in a magnetic field experiences a force, because the field of the wire interacts with the external field. The force is greatest at right angles to the field and zero if the wire is parallel to it.", ho: false },
+        { q: "State the equation for the force on a conductor in a magnetic field.", a: "F = B I l, where F is force (N), B is magnetic flux density (T), I is current (A) and l is the length of conductor in the field (m).", ho: false },
+        { q: "State Fleming's left-hand rule. (Higher tier)", a: "First finger = field (north to south), second finger = current (positive to negative), thumb = force (motion). The three are mutually at right angles.", ho: true },
+        { q: "How does a d.c. electric motor keep rotating? (Higher tier)", a: "The coil carries current in a magnetic field, so forces act in opposite directions on its two sides and make it rotate. A split-ring commutator reverses the current every half turn, so the turning force stays in the same direction.", ho: true },
+        { q: "What is the generator effect? (physics only)", a: "A potential difference is induced across a conductor when it moves relative to a magnetic field (cutting field lines), or when the field around it changes. If the circuit is complete a current flows.", ho: false },
+        { q: "How can the size of the induced pd be increased? (physics only)", a: "Move the conductor or magnet faster, use a stronger magnet, or use more turns on the coil.", ho: false },
+        { q: "Compare an alternator and a dynamo. (physics only)", a: "Both generate pd by rotating a coil in a magnetic field. An alternator uses slip rings and produces a.c. A dynamo uses a split-ring commutator and produces d.c.", ho: false },
+        { q: "Explain how a microphone and a loudspeaker work. (physics only)", a: "Microphone: sound waves move a diaphragm and coil in a magnetic field, inducing a pd (generator effect). Loudspeaker: alternating current in a coil in a magnetic field gives a varying force (motor effect), moving a cone to produce sound.", ho: false },
+        { q: "How does a transformer work, and what is the equation linking pds and turns? (physics only)", a: "A.c. in the primary coil creates a changing magnetic field in the iron core, inducing an alternating pd in the secondary coil. V_s / V_p = n_s / n_p. If 100% efficient, V_p I_p = V_s I_s.", ho: false }
+      ],
+      mcq: [
+        { q: "Which group contains only magnetic materials?", options: ["Copper, aluminium and zinc", "Iron, copper and nickel", "Steel, aluminium and cobalt", "Iron, nickel and cobalt"], answer: 3, why: "The magnetic materials are iron, steel, cobalt and nickel. Copper and aluminium are not magnetic." },
+        { q: "A wire of length 0.10 m carrying a current of 5.0 A lies at right angles to a magnetic field of flux density 0.20 T. What force acts on it?", options: ["0.1 N", "10 N", "1 N", "0.5 N"], answer: 0, why: "F = B I l = 0.20 × 5.0 × 0.10 = 0.10 N." },
+        { q: "Which change would NOT alter the strength of the magnetic field of a solenoid?", options: ["Adding more turns", "Adding an iron core", "Reversing the direction of the current", "Increasing the current"], answer: 2, why: "Reversing the current reverses the direction of the field but not its strength. The others all change the strength." },
+        { q: "Which change would decrease the pd induced in a generator?", options: ["Rotating the coil faster", "Using a weaker magnet", "Adding more turns to the coil", "Using a stronger magnet"], answer: 1, why: "A weaker magnet means a smaller rate of cutting of magnetic field, and so a smaller induced pd." },
+        { q: "A transformer has 20 times as many turns on the primary coil as on the secondary coil. The primary pd is 230 V. What is the secondary pd?", options: ["230 V", "4 600 V", "20 V", "11.5 V"], answer: 3, why: "V_s = V_p × (n_s / n_p) = 230 × 1/20 = 11.5 V. It is a step-down transformer." },
+        { q: "Why will a transformer not work with a battery (d.c.)?", options: ["A steady d.c. gives a constant magnetic field, so no pd is induced in the secondary coil", "D.c. cannot flow through copper", "D.c. has too low a voltage", "D.c. melts the iron core"], answer: 0, why: "A pd is only induced by a changing magnetic field, which needs alternating current in the primary coil." },
+        { q: "In the motor effect, for a given current and field, the force on the wire is greatest when the wire is:", options: ["parallel to the field", "moving in the same direction as the field", "at right angles to the field", "outside the field"], answer: 2, why: "The force is proportional to the component of the field at right angles to the wire. Parallel to the field the force is zero." },
+        { q: "Which statement is correct?", options: ["A loudspeaker uses the generator effect and a microphone uses the motor effect", "A loudspeaker uses the motor effect and a microphone uses the generator effect", "Both use the motor effect", "Both use the generator effect"], answer: 1, why: "A loudspeaker turns current into force (motor effect). A microphone turns movement into pd (generator effect)." },
+        { q: "Why does the needle of a compass point north?", options: ["It is attracted to the Pole Star", "It is attracted by gravity", "It lines up with the Earth's magnetic field", "It is repelled by the Sun"], answer: 2, why: "The needle is a small magnet. It aligns with the Earth's magnetic field, which is produced by its core." },
+        { q: "A 100% efficient transformer has an input of 230 V and 2.0 A. The output pd is 11.5 V. What is the output current?", options: ["40 A", "2.0 A", "460 A", "0.05 A"], answer: 0, why: "Input power = 230 × 2.0 = 460 W. I_s = 460 ÷ 11.5 = 40 A. Stepping the pd down steps the current up." }
+      ]
+    },
+
+    /* ============================ 8 SPACE PHYSICS ============================ */
+    {
+      id: "space", num: 8, name: "Space physics",
+      cards: [
+        { q: "Describe the Solar System and our galaxy.", a: "The Sun is at the centre, with eight planets, dwarf planets, moons, asteroids and comets in orbit. The Solar System is part of the Milky Way galaxy.", ho: false },
+        { q: "How does a star form and why is a main sequence star stable?", a: "Gravity pulls clouds of dust and gas (a nebula) together to form a protostar. The temperature rises until hydrogen nuclei fuse into helium. In the main sequence the inward force of gravity is balanced by the outward force from the energy released in fusion.", ho: false },
+        { q: "Describe the life cycle of a star about the size of the Sun.", a: "Nebula → protostar → main sequence star → red giant → white dwarf → black dwarf.", ho: false },
+        { q: "Describe the life cycle of a star much more massive than the Sun.", a: "Nebula → protostar → main sequence star → red supergiant → supernova → neutron star or black hole (the supernova leaves a nebula of material).", ho: false },
+        { q: "Where were the different chemical elements made?", a: "Fusion in stars makes elements up to iron. Elements heavier than iron are made in supernova explosions. The material is scattered through space and may form new stars and planets.", ho: false },
+        { q: "What force keeps planets and satellites in orbit, and give examples of natural and artificial satellites.", a: "Gravity. Natural: the Moon, planets orbiting the Sun. Artificial: communications, weather and GPS satellites.", ho: false },
+        { q: "Why does an object in circular orbit have constant speed but changing velocity? (Higher tier)", a: "Gravity acts at right angles to its motion, towards the centre. It changes the direction but not the speed, so the velocity (a vector) changes continuously.", ho: true },
+        { q: "How does orbital speed relate to orbital radius for a stable orbit? (Higher tier)", a: "A stable orbit at a given radius needs a particular speed. If the radius changes, the speed must change: a smaller radius needs a higher speed; a larger radius needs a lower speed.", ho: true },
+        { q: "What is red-shift and what does it show? (physics only)", a: "The observed wavelength of light from distant galaxies is longer than expected. This shows the galaxies are moving away. More distant galaxies show greater red-shift, so they move away faster, which shows the Universe is expanding.", ho: false },
+        { q: "Describe the Big Bang theory. (physics only)", a: "The Universe began from a very small region that was extremely hot and dense, and it has been expanding ever since.", ho: false },
+        { q: "What is cosmic microwave background radiation (CMBR) and why is it important? (physics only)", a: "Microwave radiation arriving from all directions in space. It is a remnant of the early hot Universe and is evidence supporting the Big Bang.", ho: false },
+        { q: "What are dark matter and dark energy? (physics only)", a: "Theoretical explanations for observations that cannot be explained by visible matter. Dark matter is invoked for the extra gravitational effect seen in galaxies. Dark energy is invoked to explain the accelerating expansion of the Universe. Neither has been directly observed.", ho: false }
+      ],
+      mcq: [
+        { q: "Light from a distant galaxy is red-shifted. What does this show?", options: ["The galaxy is moving towards us", "The galaxy is moving away from us", "The galaxy is stationary", "The galaxy is very hot"], answer: 1, why: "Red-shift means the observed wavelength is longer than expected, which occurs when the source is moving away." },
+        { q: "Which sequence shows the life cycle of a star of a similar mass to the Sun?", options: ["Protostar → main sequence → red supergiant → supernova → neutron star", "Nebula → red giant → main sequence → white dwarf", "Nebula → protostar → main sequence → supernova → black dwarf", "Nebula → protostar → main sequence → red giant → white dwarf → black dwarf"], answer: 3, why: "A Sun-sized star becomes a red giant, then a white dwarf, then cools to a black dwarf. Supernovae happen only to much more massive stars." },
+        { q: "Why is a main sequence star stable?", options: ["Inward gravity is balanced by the outward force from the energy released in fusion", "Fusion has stopped", "The star has run out of hydrogen", "There is no gravity in the core"], answer: 0, why: "The star neither collapses nor expands because gravity (inwards) and the radiation/fusion pressure (outwards) balance." },
+        { q: "Where were elements heavier than iron formed?", options: ["In the Big Bang", "In the cores of main sequence stars", "In supernova explosions", "On the surface of the Sun"], answer: 2, why: "Fusion in stars produces elements up to iron. The extreme conditions in a supernova produce heavier elements." },
+        { q: "Which observation is evidence for the Big Bang theory?", options: ["The seasons on Earth", "Cosmic microwave background radiation", "The existence of black holes", "The orbit of the Moon"], answer: 1, why: "CMBR is the cooled remnant of the hot early Universe. It is, together with red-shift, key evidence for the Big Bang." },
+        { q: "A satellite is in a stable circular orbit around the Earth. Which statement is correct?", options: ["Its speed is constant but its velocity is changing", "Both its speed and its velocity are constant", "Its velocity is constant but its speed is changing", "The resultant force on it is zero"], answer: 0, why: "Gravity provides a resultant force towards the centre, so the direction of motion (and so the velocity) keeps changing while the speed stays the same.", ho: true },
+        { q: "What happens in the core of a main sequence star?", options: ["Helium nuclei fuse to form carbon", "Atoms split by fission", "Gravity is the only process", "Hydrogen nuclei fuse to form helium"], answer: 3, why: "The main sequence is the stable phase when hydrogen is fusing into helium, releasing the star's energy." },
+        { q: "A satellite moves from its orbit to a higher orbit further from the Earth and stays in a stable orbit. What must happen to its orbital speed?", options: ["It must increase", "It must stay the same", "It must decrease", "It must become zero"], answer: 2, why: "Gravity is weaker at greater distance, so a lower speed is needed for a stable orbit at a larger radius.", ho: true }
+      ]
+    }
+  ],
+
+  /* ============================== EQUATIONS ============================== */
+  equations: [
+    { name: "Kinetic energy", eq: "E_k = ½ m v²", words: "kinetic energy = 0.5 × mass × speed²", symbols: [["E_k", "kinetic energy", "J"], ["m", "mass", "kg"], ["v", "speed", "m/s"]], topic: "energy", ho: false },
+    { name: "Gravitational potential energy", eq: "E_p = m g h", words: "gravitational potential energy = mass × gravitational field strength × height", symbols: [["E_p", "gravitational potential energy", "J"], ["m", "mass", "kg"], ["g", "gravitational field strength", "N/kg"], ["h", "height", "m"]], topic: "energy", ho: false },
+    { name: "Elastic potential energy", eq: "E_e = ½ k e²", words: "elastic potential energy = 0.5 × spring constant × extension²", symbols: [["E_e", "elastic potential energy", "J"], ["k", "spring constant", "N/m"], ["e", "extension", "m"]], topic: "energy", ho: false },
+    { name: "Specific heat capacity", eq: "ΔE = m c Δθ", words: "change in thermal energy = mass × specific heat capacity × temperature change", symbols: [["ΔE", "change in thermal energy", "J"], ["m", "mass", "kg"], ["c", "specific heat capacity", "J/kg °C"], ["Δθ", "temperature change", "°C"]], topic: "energy", ho: false },
+    { name: "Power (energy transferred)", eq: "P = E / t", words: "power = energy transferred ÷ time", symbols: [["P", "power", "W"], ["E", "energy transferred", "J"], ["t", "time", "s"]], topic: "energy", ho: false },
+    { name: "Power (work done)", eq: "P = W / t", words: "power = work done ÷ time", symbols: [["P", "power", "W"], ["W", "work done", "J"], ["t", "time", "s"]], topic: "energy", ho: false },
+    { name: "Efficiency (energy)", eq: "efficiency = useful output energy transfer / total input energy transfer", words: "efficiency = useful output energy transfer ÷ total input energy transfer", symbols: [["efficiency", "efficiency (decimal or %)", "no unit"], ["useful output energy transfer", "energy usefully transferred", "J"], ["total input energy transfer", "total energy supplied", "J"]], topic: "energy", ho: false },
+    { name: "Efficiency (power)", eq: "efficiency = useful power output / total power input", words: "efficiency = useful power output ÷ total power input", symbols: [["efficiency", "efficiency (decimal or %)", "no unit"], ["useful power output", "power usefully transferred", "W"], ["total power input", "total power supplied", "W"]], topic: "energy", ho: false },
+    { name: "Charge flow", eq: "Q = I t", words: "charge flow = current × time", symbols: [["Q", "charge flow", "C"], ["I", "current", "A"], ["t", "time", "s"]], topic: "electricity", ho: false },
+    { name: "Potential difference", eq: "V = I R", words: "potential difference = current × resistance", symbols: [["V", "potential difference", "V"], ["I", "current", "A"], ["R", "resistance", "Ω"]], topic: "electricity", ho: false },
+    { name: "Electrical power (V and I)", eq: "P = V I", words: "power = potential difference × current", symbols: [["P", "power", "W"], ["V", "potential difference", "V"], ["I", "current", "A"]], topic: "electricity", ho: false },
+    { name: "Electrical power (I and R)", eq: "P = I² R", words: "power = current² × resistance", symbols: [["P", "power", "W"], ["I", "current", "A"], ["R", "resistance", "Ω"]], topic: "electricity", ho: false },
+    { name: "Energy transferred (power and time)", eq: "E = P t", words: "energy transferred = power × time", symbols: [["E", "energy transferred", "J"], ["P", "power", "W"], ["t", "time", "s"]], topic: "electricity", ho: false },
+    { name: "Energy transferred (charge and pd)", eq: "E = Q V", words: "energy transferred = charge flow × potential difference", symbols: [["E", "energy transferred", "J"], ["Q", "charge flow", "C"], ["V", "potential difference", "V"]], topic: "electricity", ho: false },
+    { name: "Density", eq: "ρ = m / V", words: "density = mass ÷ volume", symbols: [["ρ", "density", "kg/m³"], ["m", "mass", "kg"], ["V", "volume", "m³"]], topic: "particle", ho: false },
+    { name: "Specific latent heat", eq: "E = m L", words: "thermal energy for a change of state = mass × specific latent heat", symbols: [["E", "thermal energy for a change of state", "J"], ["m", "mass", "kg"], ["L", "specific latent heat", "J/kg"]], topic: "particle", ho: false },
+    { name: "Gas pressure and volume", eq: "p V = constant", words: "pressure × volume = constant (fixed mass of gas at constant temperature)", symbols: [["p", "pressure", "Pa"], ["V", "volume", "m³"]], topic: "particle", ho: false },
+    { name: "Weight", eq: "W = m g", words: "weight = mass × gravitational field strength", symbols: [["W", "weight", "N"], ["m", "mass", "kg"], ["g", "gravitational field strength", "N/kg"]], topic: "forces", ho: false },
+    { name: "Work done", eq: "W = F s", words: "work done = force × distance (along the line of action of the force)", symbols: [["W", "work done", "J"], ["F", "force", "N"], ["s", "distance", "m"]], topic: "forces", ho: false },
+    { name: "Hooke's law", eq: "F = k e", words: "force = spring constant × extension", symbols: [["F", "force", "N"], ["k", "spring constant", "N/m"], ["e", "extension", "m"]], topic: "forces", ho: false },
+    { name: "Moment of a force", eq: "M = F d", words: "moment = force × distance (normal to the direction of the force)", symbols: [["M", "moment", "N m"], ["F", "force", "N"], ["d", "distance from pivot", "m"]], topic: "forces", ho: false },
+    { name: "Pressure", eq: "p = F / A", words: "pressure = force normal to a surface ÷ area of that surface", symbols: [["p", "pressure", "Pa"], ["F", "force", "N"], ["A", "area", "m²"]], topic: "forces", ho: false },
+    { name: "Pressure in a liquid", eq: "p = h ρ g", words: "pressure = height of column × density of liquid × gravitational field strength", symbols: [["p", "pressure", "Pa"], ["h", "height of column", "m"], ["ρ", "density of liquid", "kg/m³"], ["g", "gravitational field strength", "N/kg"]], topic: "forces", ho: false },
+    { name: "Speed", eq: "s = v t", words: "distance travelled = speed × time", symbols: [["s", "distance travelled", "m"], ["v", "speed", "m/s"], ["t", "time", "s"]], topic: "forces", ho: false },
+    { name: "Acceleration", eq: "a = Δv / t", words: "acceleration = change in velocity ÷ time taken", symbols: [["a", "acceleration", "m/s²"], ["Δv", "change in velocity", "m/s"], ["t", "time taken", "s"]], topic: "forces", ho: false },
+    { name: "Uniform acceleration", eq: "v² − u² = 2 a s", words: "(final velocity)² − (initial velocity)² = 2 × acceleration × distance", symbols: [["v", "final velocity", "m/s"], ["u", "initial velocity", "m/s"], ["a", "acceleration", "m/s²"], ["s", "distance", "m"]], topic: "forces", ho: false },
+    { name: "Newton's second law", eq: "F = m a", words: "resultant force = mass × acceleration", symbols: [["F", "resultant force", "N"], ["m", "mass", "kg"], ["a", "acceleration", "m/s²"]], topic: "forces", ho: false },
+    { name: "Momentum", eq: "p = m v", words: "momentum = mass × velocity", symbols: [["p", "momentum", "kg m/s"], ["m", "mass", "kg"], ["v", "velocity", "m/s"]], topic: "forces", ho: false },
+    { name: "Force and change in momentum", eq: "F = m Δv / Δt", words: "force = change in momentum ÷ time taken (m Δv = change in momentum)", symbols: [["F", "force", "N"], ["m Δv", "change in momentum", "kg m/s"], ["Δt", "time taken", "s"]], topic: "forces", ho: true },
+    { name: "Wave speed", eq: "v = f λ", words: "wave speed = frequency × wavelength", symbols: [["v", "wave speed", "m/s"], ["f", "frequency", "Hz"], ["λ", "wavelength", "m"]], topic: "waves", ho: false },
+    { name: "Period", eq: "T = 1 / f", words: "period = 1 ÷ frequency", symbols: [["T", "period", "s"], ["f", "frequency", "Hz"]], topic: "waves", ho: false },
+    { name: "Magnification", eq: "magnification = image height / object height", words: "magnification = image height ÷ object height", symbols: [["magnification", "magnification", "no unit"], ["image height", "height of the image", "m (same units as object)"], ["object height", "height of the object", "m (same units as image)"]], topic: "waves", ho: false },
+    { name: "Force on a conductor in a magnetic field", eq: "F = B I l", words: "force = magnetic flux density × current × length of conductor in the field", symbols: [["F", "force", "N"], ["B", "magnetic flux density", "T"], ["I", "current", "A"], ["l", "length of conductor in the field", "m"]], topic: "magnetism", ho: false },
+    { name: "Transformer (turns and pd)", eq: "V_s / V_p = n_s / n_p", words: "pd across secondary ÷ pd across primary = turns on secondary ÷ turns on primary", symbols: [["V_s", "pd across secondary coil", "V"], ["V_p", "pd across primary coil", "V"], ["n_s", "turns on secondary coil", "no unit"], ["n_p", "turns on primary coil", "no unit"]], topic: "magnetism", ho: false },
+    { name: "Transformer (100% efficient)", eq: "V_s I_s = V_p I_p", words: "pd across secondary × current in secondary = pd across primary × current in primary", symbols: [["V_s", "pd across secondary coil", "V"], ["I_s", "current in secondary coil", "A"], ["V_p", "pd across primary coil", "V"], ["I_p", "current in primary coil", "A"]], topic: "magnetism", ho: false }
+  ],
+
+  /* ============================ REQUIRED PRACTICALS ============================ */
+  practicals: [
+    {
+      id: "shc", name: "Specific heat capacity", topic: "energy",
+      aim: "Determine the specific heat capacity of a solid (or liquid) by measuring the energy supplied by an electric heater and the resulting temperature rise.",
+      method: [
+        "Measure the mass of the block (or liquid) with a balance.",
+        "Place the heater and thermometer in the holes in the block (a drop of oil in the thermometer hole improves contact) and wrap the block in insulation.",
+        "Record the initial temperature, then switch on the heater and start a stopwatch.",
+        "Record the current and pd (or use a joulemeter) so the energy supplied can be found: E = V I t.",
+        "After a set time (e.g. 10 minutes) switch off and record the highest temperature reached.",
+        "Calculate the temperature rise Δθ, then c = ΔE ÷ (m Δθ). Repeat or plot temperature against energy: the gradient is 1 ÷ (m c)."
+      ],
+      iv: "The energy supplied (heating time), or the material of the block.",
+      dv: "The temperature of the block (temperature rise).",
+      cv: "Mass of the block, power of the heater, insulation, starting temperature.",
+      safety: "The heater and block get hot, so do not touch them; place them on a heat-proof mat and let them cool before handling.",
+      tips: [
+        "Insulating the block reduces energy lost to the surroundings, which would make c appear too large.",
+        "Keep watching the thermometer after switching off, as the temperature can keep rising briefly.",
+        "Read the temperature at eye level and use the same thermometer for every reading."
+      ]
+    },
+    {
+      id: "insulation", name: "Thermal insulation", topic: "energy",
+      aim: "Investigate the effectiveness of different materials as thermal insulators, and how the thickness of the insulation affects this.",
+      method: [
+        "Place a small beaker inside a larger beaker and pack the gap with the insulating material under test (or wrap the beaker in layers of material).",
+        "Pour the same volume of hot water into the small beaker and cover it with a lid.",
+        "Record the starting temperature, then start a stopwatch.",
+        "Record the temperature every minute for a fixed time, e.g. 15 to 20 minutes.",
+        "Repeat for each material, and for different thicknesses of one material.",
+        "Plot temperature against time for each and compare the temperature fall (or the gradients of the cooling curves)."
+      ],
+      iv: "The type of insulating material (or its thickness).",
+      dv: "The temperature fall of the water (rate of cooling).",
+      cv: "Starting temperature and volume of the water, size of the beakers, lid, room temperature, time interval.",
+      safety: "Take care with hot water and kettles: pour slowly and use a tray to catch spills.",
+      tips: [
+        "The best insulator has the smallest temperature fall over the same time.",
+        "Use a lid, otherwise energy is lost by evaporation and the test is not fair.",
+        "Start each test at the same temperature, or compare the temperature fall rather than the final temperature."
+      ]
+    },
+    {
+      id: "resistance", name: "Resistance", topic: "electricity",
+      aim: "Investigate how the resistance of a wire depends on its length, using an ammeter and voltmeter (the same circuit can be used to measure resistors in series and in parallel).",
+      method: [
+        "Set up a series circuit: cell or power supply, ammeter and the test wire fixed along a metre rule, with a voltmeter connected in parallel across the wire.",
+        "Attach a crocodile clip to the wire at 10 cm from the first connection.",
+        "Switch on, record the pd (V) and current (I), then switch off.",
+        "Calculate the resistance R = V ÷ I.",
+        "Repeat for lengths at 10 cm intervals up to 100 cm.",
+        "Plot resistance against length: a straight line through the origin shows resistance is proportional to length."
+      ],
+      iv: "Length of wire.",
+      dv: "Resistance of the wire (calculated from V and I).",
+      cv: "Material and diameter of the wire, pd of the supply, temperature of the wire.",
+      safety: "The wire can heat up, so switch off between readings and keep the pd low.",
+      tips: [
+        "Switching off between readings keeps the wire at a constant temperature, since heating would change its resistance.",
+        "Place the ammeter in series and the voltmeter in parallel.",
+        "Repeat the readings and calculate a mean to reduce the effect of random errors."
+      ]
+    },
+    {
+      id: "iv", name: "I–V characteristics", topic: "electricity",
+      aim: "Obtain current–potential difference graphs for a resistor at constant temperature, a filament lamp and a diode.",
+      method: [
+        "Set up a series circuit with the component, an ammeter, a variable resistor (or variable power supply), and a voltmeter in parallel across the component.",
+        "Adjust the variable resistor to give a small pd. Record the pd and the current.",
+        "Increase the pd in steps and record the current at each step.",
+        "Reverse the connections to the component (swap the cell polarity) and repeat to get negative values.",
+        "Repeat for each component. For the diode, use a protective resistor in series.",
+        "Plot a graph of current (y-axis) against pd (x-axis) for each component."
+      ],
+      iv: "Potential difference across the component.",
+      dv: "Current through the component.",
+      cv: "The component itself, and (for the resistor) its temperature.",
+      safety: "A filament lamp gets hot, so avoid touching it, and do not exceed the rated pd of the components.",
+      tips: [
+        "Resistor at constant temperature: straight line through the origin (I proportional to V). Filament lamp: curve that flattens as resistance increases with temperature. Diode: current flows in one direction only.",
+        "Draw a smooth curve or straight line of best fit rather than joining the dots.",
+        "Put current on the y-axis and pd on the x-axis."
+      ]
+    },
+    {
+      id: "density", name: "Density", topic: "particle",
+      aim: "Determine the densities of regular solids, irregular solids and liquids using mass and volume measurements.",
+      method: [
+        "Regular solid: measure its mass on a balance, and its dimensions with a ruler to calculate the volume (e.g. l × w × h).",
+        "Irregular solid: measure its mass, then lower it into a eureka can (or a measuring cylinder of water) and measure the volume of water displaced.",
+        "Liquid: place a measuring cylinder on the balance and zero it (or record its mass).",
+        "Add a measured volume of liquid and record the mass of the liquid.",
+        "Calculate density ρ = m ÷ V for each.",
+        "Repeat and average. For solids, compare with data values to identify the material."
+      ],
+      iv: "Not applicable: the object or liquid being tested is changed (density is a property being measured).",
+      dv: "Mass and volume, from which the density is calculated.",
+      cv: "Same balance and measuring equipment; temperature of the liquid.",
+      safety: "Lower objects gently into the water to avoid splashing and wipe up spills so that the floor is not slippery.",
+      tips: [
+        "Read the volume at the bottom of the meniscus with your eye level to the liquid surface.",
+        "Make sure the eureka can is filled to the spout and has stopped dripping before you add the object.",
+        "Give the answer in kg/m³ and check the units of mass and volume are consistent (g/cm³ or kg/m³)."
+      ]
+    },
+    {
+      id: "extension", name: "Force and extension", topic: "forces",
+      aim: "Investigate the relationship between force and extension for a spring.",
+      method: [
+        "Clamp a spring vertically with a metre rule alongside it, and measure the natural (unstretched) length.",
+        "Hang a 100 g mass holder on the spring (a weight of about 1 N).",
+        "Measure the new length of the spring, with your eye level with the pointer.",
+        "Add further masses one at a time, measuring the length each time.",
+        "Calculate the extension at each step (length − natural length) and the force (weight = m g).",
+        "Plot force against extension. The gradient of the straight part is the spring constant."
+      ],
+      iv: "Force (weight) applied to the spring.",
+      dv: "Extension of the spring.",
+      cv: "The spring used, the ruler, the method of reading the length.",
+      safety: "Wear eye protection in case the spring snaps, keep feet away from falling masses, and secure the stand (e.g. with a clamp or heavy base).",
+      tips: [
+        "A straight line through the origin shows that extension is proportional to force (Hooke's law). The line curves once the limit of proportionality is passed.",
+        "Use a set square or pointer and read at eye level to avoid parallax errors.",
+        "The extension is the increase in length, not the total length of the spring."
+      ]
+    },
+    {
+      id: "acceleration", name: "Acceleration", topic: "forces",
+      aim: "Investigate the effect of varying the force on the acceleration of an object of constant mass, and the effect of varying the mass on the acceleration produced by a constant force.",
+      method: [
+        "Set up a trolley on a runway with a string running over a pulley to a hanging mass holder. Two light gates (or one gate and a card of known length) measure the speed.",
+        "Release the trolley and record the speeds and time between the light gates to find a = Δv ÷ t (or use the data logger).",
+        "To vary the force: change the hanging mass and move masses from the trolley to the holder so that the total mass remains constant.",
+        "Record the acceleration for each force (F = weight of the hanging masses).",
+        "To vary the mass: keep the hanging weight constant and add masses to the trolley, recording the acceleration each time.",
+        "Plot acceleration against force, and acceleration against 1 ÷ mass."
+      ],
+      iv: "Force on the trolley (first part), and mass of the trolley (second part).",
+      dv: "Acceleration of the trolley.",
+      cv: "Mass of the system (first part), force (second part), the runway and the surface.",
+      safety: "Place a cushion or box to stop the trolley at the end of the runway, and keep feet away from the falling masses.",
+      tips: [
+        "Moving masses from the trolley to the hanger keeps the total mass constant, so only the force changes.",
+        "Results should show that acceleration is proportional to force and inversely proportional to mass (F = m a).",
+        "Repeat each run and take a mean to improve reliability."
+      ]
+    },
+    {
+      id: "waves", name: "Waves", topic: "waves",
+      aim: "Measure the speed of waves in a ripple tank and in a solid (a stretched string), using v = f λ.",
+      method: [
+        "Ripple tank: set up the lamp above and the dipper in the water, with a white sheet beneath to show the shadows of the waves.",
+        "Switch on the motor and adjust it so that the frequency is known. Use a strobe or freeze-frame to view the waves.",
+        "Measure the distance across several wavelengths (e.g. 10) with a ruler, then divide to find the wavelength λ.",
+        "Calculate the wave speed using v = f λ.",
+        "Solid: attach a vibration generator to a stretched string and adjust the frequency to produce a standing wave.",
+        "Measure the wavelength from the standing wave pattern (twice the distance between nodes), and calculate v = f λ."
+      ],
+      iv: "Frequency of the waves (or the wave medium).",
+      dv: "Wavelength of the waves (and so wave speed).",
+      cv: "Depth of the water (or tension of the string), and the equipment.",
+      safety: "Wipe up spilt water and keep electrical equipment away from the water. Do not touch the hot lamp.",
+      tips: [
+        "Measuring across several wavelengths and dividing reduces the percentage error in the measurement.",
+        "Wave speed in water depends on the depth, so keep the depth constant.",
+        "Use v = f λ with the frequency from the generator or by counting waves per second."
+      ]
+    },
+    {
+      id: "light", name: "Light: reflection and refraction", topic: "waves",
+      aim: "Investigate the reflection of light by different surfaces, and the refraction of light by different substances (rectangular block of glass or Perspex, and water).",
+      method: [
+        "Place a plane mirror (or the block) on a sheet of paper and draw round it. Draw a normal line at 90° to the surface.",
+        "Use a ray box with a single slit to direct a thin ray at the surface along a line drawn at an angle of incidence i.",
+        "For reflection: mark the reflected ray, remove the mirror, and measure the angle of reflection r from the normal.",
+        "For refraction: mark the points where the ray enters and leaves the block, remove it, join the points and measure the angle of refraction.",
+        "Repeat for a range of angles of incidence, recording both angles each time.",
+        "Plot angle of refraction against angle of incidence, or compare the angles of reflection with the incidence angles."
+      ],
+      iv: "Angle of incidence (and the material of the block).",
+      dv: "Angle of reflection or of refraction.",
+      cv: "The ray box, the material, the point of incidence, and measuring angles from the normal.",
+      safety: "The ray box lamp gets hot, so do not touch it. Keep glass blocks away from the table edge.",
+      tips: [
+        "Always measure angles from the normal, not from the surface. Use a sharp pencil and a thin ray for precision.",
+        "Entering glass from air the ray bends towards the normal. Leaving, it bends away. The emergent ray is parallel to the incident ray for a rectangular block.",
+        "The angle of reflection equals the angle of incidence."
+      ]
+    },
+    {
+      id: "infrared", name: "Infrared radiation", topic: "waves",
+      aim: "Investigate how the amount of infrared radiation absorbed or radiated by a surface depends on the nature of that surface.",
+      method: [
+        "Fill a Leslie cube (a hollow metal cube with four different surfaces: matt black, shiny black, matt white and shiny silver) with boiling water.",
+        "Place an infrared detector the same distance from the first surface and at the same height.",
+        "Record the reading on the detector (or the temperature rise) for each surface in turn, keeping the distance fixed.",
+        "Rotate the cube to measure each surface in the same way.",
+        "Alternatively, use identical containers with different surfaces filled with hot water and record the temperature fall over time.",
+        "Repeat the measurements and compare the results for the different surfaces."
+      ],
+      iv: "The type of surface (colour and texture).",
+      dv: "The amount of infrared radiation emitted (detector reading or temperature change).",
+      cv: "Distance from the detector, temperature of the water, area of the surface, angle of the detector.",
+      safety: "Take care with boiling water and a hot cube: use a heat-proof mat and avoid touching the cube.",
+      tips: [
+        "Matt black surfaces are the best emitters and absorbers of infrared radiation; shiny silver surfaces are the poorest.",
+        "Keep the detector at the same distance and shield it from other heat sources, so that the test is fair.",
+        "Make sure the water in the cube stays hot (top it up or work quickly) so the surface temperature is the same for each face."
+      ]
+    }
+  ]
+};
+
+</script>
+<script>
+(function () {
+"use strict";
+const D = window.PHYSICS_DATA || { topics: [], equations: [], practicals: [] };
+const app = document.getElementById("app");
+const TOPICS = D.topics;
+const topicById = Object.fromEntries(TOPICS.map(t => [t.id, t]));
+
+/* ---------- helpers ---------- */
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const rand = (lo, hi) => lo + Math.random() * (hi - lo);
+const sf = (x, n) => Number(Number(x).toPrecision(n));
+const pct = (a, b) => b ? Math.round(100 * a / b) : 0;
+const SUP = { "-": "⁻", "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴", "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹" };
+function fmt(x, n) {
+  n = n || 3;
+  if (x === 0) return "0";
+  const ax = Math.abs(x);
+  if (ax >= 1e6 || ax < 1e-3) {
+    const [m, e] = Number(x).toExponential(n - 1).split("e");
+    return String(Number(m)) + " × 10" + String(Number(e)).split("").map(c => SUP[c] || c).join("");
+  }
+  const v = sf(x, n);
+  return ax >= 1000 ? v.toLocaleString("en-GB", { maximumFractionDigits: 6 }) : String(v);
+}
+function parseNum(s) {
+  if (s == null) return NaN;
+  let t = String(s).trim().replace(/\s+/g, "").replace(/,/g, "").replace(/−/g, "-");
+  t = t.replace(/[×x*]10\^?\(?(-?\d+)\)?/i, "e$1");
+  if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
+  return parseFloat(t);
+}
+const today = () => new Date().toISOString().slice(0, 10);
+
+/* ---------- saved progress ---------- */
+const KEY = "aqa-physics-8463-v1";
+let S = { boxes: {}, quiz: {}, mistakes: [], calc: { r: 0, t: 0 }, streak: { last: null, days: 0 }, sel: [], conv: false };
+try { const saved = JSON.parse(localStorage.getItem(KEY)); if (saved) S = Object.assign(S, saved); } catch (e) {}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function touchStreak() {
+  const t = today();
+  if (S.streak.last === t) return;
+  const y = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
+  S.streak.days = S.streak.last === y ? S.streak.days + 1 : 1;
+  S.streak.last = t;
+  save(); drawStreak();
+}
+function drawStreak() {
+  const y = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
+  const live = S.streak.last === today() || S.streak.last === y;
+  document.getElementById("streak").textContent = "Day streak: " + (live ? S.streak.days : 0);
+}
+
+/* ---------- topic selection (shared across modes) ---------- */
+function selTopics() { const s = S.sel.filter(id => topicById[id]); return s.length ? s : TOPICS.map(t => t.id); }
+function chipsHTML() {
+  const all = !S.sel.length;
+  return `<div class="chips" role="group" aria-label="Topics">
+    <button class="chip" data-chip="all" aria-pressed="${all}">All topics</button>
+    ${TOPICS.map(t => `<button class="chip" data-chip="${t.id}" aria-pressed="${!all && S.sel.includes(t.id)}">${t.num}. ${esc(t.name)}</button>`).join("")}
+  </div>`;
+}
+function bindChips(onChange) {
+  app.querySelectorAll("[data-chip]").forEach(b => b.onclick = () => {
+    const id = b.dataset.chip;
+    if (id === "all") S.sel = [];
+    else S.sel = S.sel.includes(id) ? S.sel.filter(x => x !== id) : S.sel.concat(id);
+    if (S.sel.length === TOPICS.length) S.sel = [];
+    save(); onChange();
+  });
+}
+
+/* ---------- item access ---------- */
+function allCards(ids) { const out = []; ids.forEach(id => (topicById[id].cards || []).forEach((c, i) => out.push(Object.assign({ key: id + ":c" + i, topic: id }, c)))); return out; }
+function allMcq(ids) { const out = []; ids.forEach(id => (topicById[id].mcq || []).forEach((m, i) => out.push(Object.assign({ key: id + ":m" + i, topic: id }, m)))); return out; }
+function mcqByKey(k) { const [id, m] = k.split(":m"); const t = topicById[id]; return t && t.mcq[+m] ? Object.assign({ key: k, topic: id }, t.mcq[+m]) : null; }
+function mastery(t) {
+  const cards = t.cards || [];
+  const known = cards.filter((c, i) => (S.boxes[t.id + ":c" + i] || 0) >= 3).length;
+  const q = S.quiz[t.id] || { r: 0, t: 0 };
+  return { known, total: cards.length, cardPct: pct(known, cards.length), qPct: q.t ? pct(q.r, q.t) : null, qT: q.t };
+}
+
+/* ---------- views ---------- */
+const views = {};
+let cleanupKeys = null;
+function setKeys(fn) { if (cleanupKeys) document.removeEventListener("keydown", cleanupKeys); cleanupKeys = fn; if (fn) document.addEventListener("keydown", fn); }
+
+views.home = function () {
+  setKeys(null);
+  const totalCards = TOPICS.reduce((n, t) => n + (t.cards || []).length, 0);
+  const known = TOPICS.reduce((n, t) => n + mastery(t).known, 0);
+  const qr = Object.values(S.quiz).reduce((a, q) => [a[0] + q.r, a[1] + q.t], [0, 0]);
+  const scored = TOPICS.map(t => { const m = mastery(t); return { t, score: m.qPct == null ? m.cardPct / 2 : (m.cardPct + m.qPct) / 2 }; }).sort((a, b) => a.score - b.score);
+  const weakest = scored[0] && scored[0].t;
+  app.innerHTML = `
+    <div class="row between">
+      <div><div class="eyebrow">Your progress</div><h2>Overview</h2></div>
+      ${weakest ? `<button class="primary" id="go-weak">Revise ${esc(weakest.name)}</button>` : ""}
+    </div>
+    <div class="stats">
+      <div class="stat"><b>${known}<small class="muted" style="font-size:.9rem">/${totalCards}</small></b><span>flashcards known</span></div>
+      <div class="stat"><b>${qr[1] ? pct(qr[0], qr[1]) + "%" : "–"}</b><span>quiz accuracy (${qr[1]} answered)</span></div>
+      <div class="stat"><b>${S.calc.t ? pct(S.calc.r, S.calc.t) + "%" : "–"}</b><span>calculations right (${S.calc.t} tried)</span></div>
+    </div>
+    <p class="muted">A card counts as known once you've marked it “Knew it” a few times. Pick a topic to revise it, or use the tabs above to practise across the whole course.</p>
+    <div class="grid2">
+      ${TOPICS.map(t => { const m = mastery(t); return `
+        <button class="topic-card" data-topic="${t.id}">
+          <span class="t-head"><span class="num">P${t.num}</span><span class="name">${esc(t.name)}</span></span>
+          <span class="meter"><span>Cards</span><span class="bar"><i style="width:${m.cardPct}%"></i></span><span class="v">${m.cardPct}%</span></span>
+          <span class="meter"><span>Quiz</span><span class="bar q"><i style="width:${m.qPct || 0}%"></i></span><span class="v">${m.qPct == null ? "–" : m.qPct + "%"}</span></span>
+        </button>`; }).join("")}
+    </div>
+    ${S.mistakes.length ? `<div class="row between"><p><b>${S.mistakes.length}</b> quiz question${S.mistakes.length === 1 ? "" : "s"} to go back over.</p><button id="go-mist">Review mistakes</button></div>` : ""}`;
+  app.querySelectorAll("[data-topic]").forEach(b => b.onclick = () => { S.sel = [b.dataset.topic]; save(); location.hash = "cards"; });
+  const gw = document.getElementById("go-weak"); if (gw) gw.onclick = () => { S.sel = [weakest.id]; save(); location.hash = "cards"; };
+  const gm = document.getElementById("go-mist"); if (gm) gm.onclick = () => { location.hash = "quiz"; setTimeout(startMistakes, 0); };
+};
+
+/* ---- flashcards (Leitner boxes 0–5) ---- */
+let FC = null;
+function buildDeck() {
+  const cards = allCards(selTopics());
+  const byBox = {};
+  cards.forEach(c => { const b = S.boxes[c.key] || 0; (byBox[b] = byBox[b] || []).push(c); });
+  let deck = [];
+  Object.keys(byBox).sort((a, b) => a - b).forEach(b => deck = deck.concat(shuffle(byBox[b])));
+  FC = { deck: deck.slice(0, 20), i: 0, flipped: false, seen: 0, again: new Set() };
+}
+views.cards = function () {
+  if (!FC) buildDeck();
+  drawCard();
+};
+function drawCard() {
+  const c = FC.deck[FC.i];
+  if (!c) {
+    setKeys(null);
+    app.innerHTML = `${chipsHTML()}<div class="empty"><h2>Set done</h2><p>You went through ${FC.seen} card${FC.seen === 1 ? "" : "s"}. Cards you didn't know will come up first next time.</p></div>
+      <div class="row"><button class="primary" id="fc-new">Next set</button></div>`;
+    bindChips(() => { buildDeck(); drawCard(); });
+    document.getElementById("fc-new").onclick = () => { buildDeck(); drawCard(); };
+    return;
+  }
+  const box = S.boxes[c.key] || 0;
+  const t = topicById[c.topic];
+  app.innerHTML = `${chipsHTML()}
+    <div class="row between"><span class="muted" style="font-size:.85rem">Card ${FC.i + 1} of ${FC.deck.length} · <span class="badge topic">P${t.num} ${esc(t.name)}</span> ${c.ho ? '<span class="badge">HIGHER</span>' : ""}</span>
+      <span class="muted mono" style="font-size:.78rem">box ${box}/5</span></div>
+    <div class="progress"><i style="width:${100 * FC.i / FC.deck.length}%"></i></div>
+    <button class="flash" id="flash" aria-live="polite">
+      <span class="side">${FC.flipped ? "Answer" : "Question · tap to see the answer"}</span>
+      <span class="q">${esc(c.q)}</span>
+      ${FC.flipped ? `<span class="a">${esc(c.a)}</span>` : ""}
+    </button>
+    ${FC.flipped ? `<div class="rate">
+      <button class="again" data-r="0">Didn't know<span class="kbd">1</span></button>
+      <button class="ok" data-r="1">Sort of<span class="kbd">2</span></button>
+      <button class="got" data-r="2">Knew it<span class="kbd">3</span></button></div>` : ""}`;
+  bindChips(() => { buildDeck(); drawCard(); });
+  document.getElementById("flash").onclick = () => { FC.flipped = !FC.flipped; drawCard(); };
+  app.querySelectorAll("[data-r]").forEach(b => b.onclick = () => rateCard(+b.dataset.r));
+  setKeys(e => {
+    if (e.target.tagName === "INPUT") return;
+    if (e.key === " ") { e.preventDefault(); FC.flipped = !FC.flipped; drawCard(); }
+    else if (FC.flipped && ["1", "2", "3"].includes(e.key)) rateCard(+e.key - 1);
+  });
+}
+function rateCard(r) {
+  const c = FC.deck[FC.i];
+  const box = S.boxes[c.key] || 0;
+  S.boxes[c.key] = r === 0 ? 0 : r === 1 ? Math.max(1, box) : Math.min(5, box + 1);
+  if (r === 0 && !FC.again.has(c.key)) { FC.again.add(c.key); FC.deck.splice(Math.min(FC.deck.length, FC.i + 4), 0, c); }
+  FC.seen++; FC.i++; FC.flipped = false;
+  touchStreak(); save(); drawCard();
+}
+
+/* ---- generic multiple-choice runner (topic quiz, mistakes, units) ---- */
+let QZ = null;
+function runQuiz(items, opts) {
+  QZ = { items: items.map(it => { const order = shuffle([0, 1, 2, 3].slice(0, it.options.length)); return Object.assign({}, it, { order }); }), i: 0, score: 0, picked: null, wrong: [], opts: opts || {} };
+  drawQ();
+}
+function drawQ() {
+  const it = QZ.items[QZ.i];
+  if (!it) return quizEnd();
+  const t = it.topic && topicById[it.topic];
+  const answered = QZ.picked != null;
+  const right = answered && QZ.picked === it.answer;
+  app.innerHTML = `
+    <div class="row between"><span class="muted" style="font-size:.85rem">${esc(QZ.opts.title || "Quiz")} · question ${QZ.i + 1} of ${QZ.items.length} ${t ? `· <span class="badge topic">P${t.num} ${esc(t.name)}</span>` : ""} ${it.ho ? '<span class="badge">HIGHER</span>' : ""}</span>
+      <span class="mono muted" style="font-size:.85rem">${QZ.score} correct</span></div>
+    <div class="progress"><i style="width:${100 * QZ.i / QZ.items.length}%"></i></div>
+    <h2 style="font-size:1.15rem">${esc(it.q)}</h2>
+    <div class="options">
+      ${it.order.map((oi, n) => {
+        let cls = "";
+        if (answered && oi === it.answer) cls = "right";
+        else if (answered && oi === QZ.picked) cls = "wrong";
+        return `<button class="opt ${cls}" data-o="${oi}" ${answered ? "disabled" : ""}><span class="k">${"ABCD"[n]}</span><span>${esc(it.options[oi])}</span></button>`;
+      }).join("")}
+    </div>
+    ${answered ? `<div class="feedback ${right ? "good" : "bad"}"><b>${right ? "Correct" : "Not quite. The answer is " + esc(it.options[it.answer])}</b>${esc(it.why || "")}</div>
+      <div class="row"><button class="primary" id="q-next">${QZ.i + 1 < QZ.items.length ? "Next question" : "See results"}</button><span class="kbd">Enter</span></div>` : `<span class="kbd">Press A–D or 1–4</span>`}`;
+  app.querySelectorAll("[data-o]").forEach(b => b.onclick = () => answerQ(+b.dataset.o));
+  const nx = document.getElementById("q-next"); if (nx) { nx.onclick = nextQ; nx.focus(); }
+  setKeys(e => {
+    if (QZ.picked == null) {
+      const n = "1234".indexOf(e.key) >= 0 ? "1234".indexOf(e.key) : "abcd".indexOf(e.key.toLowerCase());
+      if (n >= 0 && n < it.order.length && e.key.length === 1) answerQ(it.order[n]);
+    } else if (e.key === "Enter") { e.preventDefault(); nextQ(); }
+  });
+}
+function answerQ(o) {
+  const it = QZ.items[QZ.i];
+  QZ.picked = o;
+  const ok = o === it.answer;
+  if (ok) QZ.score++; else QZ.wrong.push(it);
+  if (QZ.opts.onAnswer) QZ.opts.onAnswer(it, ok);
+  touchStreak(); save(); drawQ();
+}
+function nextQ() { QZ.picked = null; QZ.i++; drawQ(); }
+function quizEnd() {
+  setKeys(null);
+  const n = QZ.items.length;
+  app.innerHTML = `<div class="empty"><div class="eyebrow">${esc(QZ.opts.title || "Quiz")} finished</div>
+      <h2 style="font-size:2rem;margin-top:6px" class="mono">${QZ.score} / ${n}</h2><p>${pct(QZ.score, n)}%${pct(QZ.score, n) >= 80 ? " · strong work" : pct(QZ.score, n) >= 50 ? " · getting there" : " · worth another go after the flashcards"}</p></div>
+    ${QZ.wrong.length ? `<div><h3>To go back over</h3><ol class="mistake-list">${QZ.wrong.map(w => `<li><b>${esc(w.q)}</b><br><span class="muted">${esc(w.options[w.answer])}</span></li>`).join("")}</ol></div>` : ""}
+    <div class="row"><button class="primary" id="q-again">${esc(QZ.opts.againLabel || "New quiz")}</button><a class="btn" href="#home" style="text-decoration:none">Back to overview</a></div>`;
+  document.getElementById("q-again").onclick = () => (QZ.opts.again || views.quiz)();
+}
+function recordTopic(it, ok) {
+  const q = S.quiz[it.topic] = S.quiz[it.topic] || { r: 0, t: 0 };
+  q.t++; if (ok) q.r++;
+  if (!ok && !S.mistakes.includes(it.key)) S.mistakes.push(it.key);
+  if (ok && S.mistakes.includes(it.key)) S.mistakes = S.mistakes.filter(k => k !== it.key);
+}
+
+/* ---- quiz view ---- */
+let quizLen = 10;
+views.quiz = function () {
+  setKeys(null); QZ = null;
+  const pool = allMcq(selTopics());
+  app.innerHTML = `<div><div class="eyebrow">Exam-style multiple choice</div><h2>Quiz</h2></div>
+    ${chipsHTML()}
+    <div class="row"><span class="muted">Questions:</span>
+      ${[10, 20].map(n => `<button class="chip" data-len="${n}" aria-pressed="${quizLen === n}">${n}</button>`).join("")}
+      <span class="muted" style="font-size:.85rem">${pool.length} in the selected topics</span></div>
+    <div class="row"><button class="primary" id="q-start" ${pool.length ? "" : "disabled"}>Start quiz</button>
+      <button id="q-mist" ${S.mistakes.length ? "" : "disabled"}>Review mistakes (${S.mistakes.length})</button>
+      <button id="q-units">Units quiz</button></div>
+    <p class="muted" style="font-size:.88rem">Questions you get wrong are saved to Review mistakes. Get one right there and it drops off the list.</p>`;
+  bindChips(views.quiz);
+  app.querySelectorAll("[data-len]").forEach(b => b.onclick = () => { quizLen = +b.dataset.len; views.quiz(); });
+  document.getElementById("q-start").onclick = () => runQuiz(shuffle(pool).slice(0, quizLen), { title: "Quiz", onAnswer: recordTopic, again: views.quiz });
+  document.getElementById("q-mist").onclick = startMistakes;
+  document.getElementById("q-units").onclick = startUnits;
+};
+function startMistakes() {
+  const items = S.mistakes.map(mcqByKey).filter(Boolean);
+  if (!items.length) return views.quiz();
+  runQuiz(shuffle(items).slice(0, 20), { title: "Mistakes review", onAnswer: recordTopic, again: () => S.mistakes.length ? startMistakes() : views.quiz(), againLabel: "Review again" });
+}
+function startUnits() {
+  const seen = new Map();
+  (D.equations || []).forEach(e => (e.symbols || []).forEach(s => { const name = String(s[1]).toLowerCase(); if (s[2] && !seen.has(name)) seen.set(name, { name: s[1], unit: s[2], topic: e.topic }); }));
+  const list = [...seen.values()];
+  const units = [...new Set(list.map(x => x.unit))];
+  if (units.length < 4) return;
+  const items = shuffle(list).slice(0, 10).map(x => {
+    const opts = [x.unit].concat(shuffle(units.filter(u => u !== x.unit)).slice(0, 3));
+    return { q: "What is the SI unit of " + x.name + "?", options: opts, answer: 0, why: x.name.charAt(0).toUpperCase() + x.name.slice(1) + " is measured in " + x.unit + "." };
+  });
+  runQuiz(items, { title: "Units quiz", again: startUnits, againLabel: "Another units quiz" });
+}
+
+/* ---- calculation trainer ---- */
+const g = { n: "gravitational field strength", u: "N/kg", val: 9.8 };
+const GENS = [
+  { id: "ke", topic: "energy", name: "Kinetic energy", eq: "E_k = ½ m v²", out: "Ek",
+    vars: { Ek: { n: "kinetic energy", u: "J", alt: { u: "kJ", f: 1e3 } }, m: { n: "mass", u: "kg", r: [0.5, 80], s: 2, alt: { u: "g", f: 1e-3 } }, v: { n: "speed", u: "m/s", r: [2, 30], s: 2 } },
+    f: v => 0.5 * v.m * v.v ** 2, re: { m: "m = 2E_k ÷ v²", v: "v = √(2E_k ÷ m)" } },
+  { id: "gpe", topic: "energy", name: "Gravitational potential energy", eq: "E_p = m g h", out: "Ep", consts: { g },
+    vars: { Ep: { n: "gravitational potential energy", u: "J", alt: { u: "kJ", f: 1e3 } }, m: { n: "mass", u: "kg", r: [0.2, 70], s: 2, alt: { u: "g", f: 1e-3 } }, h: { n: "height", u: "m", r: [0.5, 40], s: 2, alt: { u: "cm", f: 1e-2 } } },
+    f: v => v.m * 9.8 * v.h, re: { m: "m = E_p ÷ (g h)", h: "h = E_p ÷ (m g)" } },
+  { id: "epe", topic: "energy", name: "Elastic potential energy", eq: "E_e = ½ k e²", out: "Ee",
+    vars: { Ee: { n: "elastic potential energy", u: "J" }, k: { n: "spring constant", u: "N/m", r: [20, 400], s: 2 }, e: { n: "extension", u: "m", r: [0.02, 0.3], s: 2, alt: { u: "cm", f: 1e-2 } } },
+    f: v => 0.5 * v.k * v.e ** 2, re: { k: "k = 2E_e ÷ e²", e: "e = √(2E_e ÷ k)" } },
+  { id: "shc", topic: "energy", name: "Specific heat capacity", eq: "ΔE = m c Δθ", out: "E",
+    vars: { E: { n: "change in thermal energy", u: "J", alt: { u: "kJ", f: 1e3 } }, m: { n: "mass", u: "kg", r: [0.2, 4], s: 2, alt: { u: "g", f: 1e-3 } }, c: { n: "specific heat capacity", u: "J/kg °C", ch: [4200, 900, 390, 2100, 450] }, dT: { n: "temperature change", u: "°C", r: [3, 60], s: 2 } },
+    f: v => v.m * v.c * v.dT, re: { m: "m = ΔE ÷ (c Δθ)", c: "c = ΔE ÷ (m Δθ)", dT: "Δθ = ΔE ÷ (m c)" } },
+  { id: "pow", topic: "energy", name: "Power and energy", eq: "P = E ÷ t", out: "P",
+    vars: { P: { n: "power", u: "W", alt: { u: "kW", f: 1e3 } }, E: { n: "energy transferred", u: "J", r: [200, 60000], s: 2, alt: { u: "kJ", f: 1e3 } }, t: { n: "time", u: "s", r: [5, 600], s: 2, alt: { u: "min", f: 60 } } },
+    f: v => v.E / v.t, re: { E: "E = P t", t: "t = E ÷ P" } },
+  { id: "eff", topic: "energy", name: "Efficiency", eq: "efficiency = useful output ÷ total input (× 100%)", out: "eff",
+    vars: { eff: { n: "efficiency", u: "%" }, tot: { n: "total input energy", u: "J", r: [200, 5000], s: 2 }, use: { n: "useful output energy", u: "J", dep: v => sf(v.tot * rand(0.15, 0.9), 2) } },
+    f: v => 100 * v.use / v.tot, re: { use: "useful output = (efficiency ÷ 100) × total input", tot: "total input = useful output ÷ (efficiency ÷ 100)" } },
+  { id: "q", topic: "electricity", name: "Charge flow", eq: "Q = I t", out: "Q",
+    vars: { Q: { n: "charge flow", u: "C" }, I: { n: "current", u: "A", r: [0.2, 5], s: 2, alt: { u: "mA", f: 1e-3 } }, t: { n: "time", u: "s", r: [5, 300], s: 2, alt: { u: "min", f: 60 } } },
+    f: v => v.I * v.t, re: { I: "I = Q ÷ t", t: "t = Q ÷ I" } },
+  { id: "vir", topic: "electricity", name: "Potential difference", eq: "V = I R", out: "V",
+    vars: { V: { n: "potential difference", u: "V" }, I: { n: "current", u: "A", r: [0.1, 4], s: 2, alt: { u: "mA", f: 1e-3 } }, R: { n: "resistance", u: "Ω", r: [2, 200], s: 2, alt: { u: "kΩ", f: 1e3 } } },
+    f: v => v.I * v.R, re: { I: "I = V ÷ R", R: "R = V ÷ I" } },
+  { id: "pvi", topic: "electricity", name: "Electrical power", eq: "P = V I", out: "P",
+    vars: { P: { n: "power", u: "W", alt: { u: "kW", f: 1e3 } }, V: { n: "potential difference", u: "V", ch: [1.5, 6, 9, 12, 24, 230] }, I: { n: "current", u: "A", r: [0.1, 10], s: 2 } },
+    f: v => v.V * v.I, re: { V: "V = P ÷ I", I: "I = P ÷ V" } },
+  { id: "pir", topic: "electricity", name: "Power, current and resistance", eq: "P = I² R", out: "P",
+    vars: { P: { n: "power", u: "W" }, I: { n: "current", u: "A", r: [0.2, 6], s: 2 }, R: { n: "resistance", u: "Ω", r: [2, 100], s: 2 } },
+    f: v => v.I ** 2 * v.R, re: { I: "I = √(P ÷ R)", R: "R = P ÷ I²" } },
+  { id: "eqv", topic: "electricity", name: "Energy and charge", eq: "E = Q V", out: "E",
+    vars: { E: { n: "energy transferred", u: "J" }, Q: { n: "charge flow", u: "C", r: [2, 500], s: 2 }, V: { n: "potential difference", u: "V", ch: [1.5, 3, 6, 9, 12, 230] } },
+    f: v => v.Q * v.V, re: { Q: "Q = E ÷ V", V: "V = E ÷ Q" } },
+  { id: "ept", topic: "electricity", name: "Energy and power", eq: "E = P t", out: "E",
+    vars: { E: { n: "energy transferred", u: "J", alt: { u: "kJ", f: 1e3 } }, P: { n: "power", u: "W", r: [5, 3000], s: 2, alt: { u: "kW", f: 1e3 } }, t: { n: "time", u: "s", r: [10, 900], s: 2, alt: { u: "min", f: 60 } } },
+    f: v => v.P * v.t, re: { P: "P = E ÷ t", t: "t = E ÷ P" } },
+  { id: "rho", topic: "particle", name: "Density", eq: "ρ = m ÷ V", out: "rho",
+    vars: { rho: { n: "density", u: "kg/m³" }, m: { n: "mass", u: "kg", r: [0.5, 50], s: 2 }, V: { n: "volume", u: "m³", dep: v => sf(v.m / rand(500, 11000), 2) } },
+    f: v => v.m / v.V, re: { m: "m = ρ V", V: "V = m ÷ ρ" } },
+  { id: "slh", topic: "particle", name: "Specific latent heat", eq: "E = m L", out: "E",
+    vars: { E: { n: "energy for a change of state", u: "J", alt: { u: "kJ", f: 1e3 } }, m: { n: "mass", u: "kg", r: [0.1, 3], s: 2, alt: { u: "g", f: 1e-3 } }, L: { n: "specific latent heat", u: "J/kg", ch: [334000, 2260000, 25000, 200000] } },
+    f: v => v.m * v.L, re: { m: "m = E ÷ L", L: "L = E ÷ m" } },
+  { id: "pv", topic: "particle", name: "Gas pressure and volume", eq: "p₁ V₁ = p₂ V₂ (constant mass and temperature)", out: "p2",
+    vars: { p2: { n: "final pressure", u: "Pa", alt: { u: "kPa", f: 1e3 } }, p1: { n: "starting pressure", u: "Pa", r: [80000, 300000], s: 2, alt: { u: "kPa", f: 1e3 } }, V1: { n: "starting volume", u: "m³", r: [0.002, 0.05], s: 2 }, V2: { n: "final volume", u: "m³", dep: v => sf(v.V1 * rand(0.4, 2.5), 2) } },
+    f: v => v.p1 * v.V1 / v.V2, re: { p1: "p₁ = p₂ V₂ ÷ V₁", V1: "V₁ = p₂ V₂ ÷ p₁", V2: "V₂ = p₁ V₁ ÷ p₂" } },
+  { id: "w", topic: "forces", name: "Weight", eq: "W = m g", out: "W", consts: { g },
+    vars: { W: { n: "weight", u: "N" }, m: { n: "mass", u: "kg", r: [0.2, 90], s: 2, alt: { u: "g", f: 1e-3 } } },
+    f: v => v.m * 9.8, re: { m: "m = W ÷ g" } },
+  { id: "wd", topic: "forces", name: "Work done", eq: "W = F s", out: "W",
+    vars: { W: { n: "work done", u: "J", alt: { u: "kJ", f: 1e3 } }, F: { n: "force", u: "N", r: [5, 2000], s: 2 }, s: { n: "distance moved along the line of the force", u: "m", r: [0.5, 50], s: 2, alt: { u: "cm", f: 1e-2 } } },
+    f: v => v.F * v.s, re: { F: "F = W ÷ s", s: "s = W ÷ F" } },
+  { id: "fma", topic: "forces", name: "Newton's second law", eq: "F = m a", out: "F",
+    vars: { F: { n: "resultant force", u: "N" }, m: { n: "mass", u: "kg", r: [0.5, 1500], s: 2, alt: { u: "g", f: 1e-3 } }, a: { n: "acceleration", u: "m/s²", r: [0.2, 10], s: 2 } },
+    f: v => v.m * v.a, re: { m: "m = F ÷ a", a: "a = F ÷ m" } },
+  { id: "hooke", topic: "forces", name: "Hooke's law", eq: "F = k e", out: "F",
+    vars: { F: { n: "force", u: "N" }, k: { n: "spring constant", u: "N/m", r: [10, 500], s: 2 }, e: { n: "extension", u: "m", r: [0.01, 0.3], s: 2, alt: { u: "cm", f: 1e-2 } } },
+    f: v => v.k * v.e, re: { k: "k = F ÷ e", e: "e = F ÷ k" } },
+  { id: "mom", topic: "forces", name: "Moment of a force", eq: "M = F d", out: "M",
+    vars: { M: { n: "moment", u: "N m" }, F: { n: "force", u: "N", r: [2, 500], s: 2 }, d: { n: "perpendicular distance from the pivot", u: "m", r: [0.05, 3], s: 2, alt: { u: "cm", f: 1e-2 } } },
+    f: v => v.F * v.d, re: { F: "F = M ÷ d", d: "d = M ÷ F" } },
+  { id: "pres", topic: "forces", name: "Pressure", eq: "p = F ÷ A", out: "p",
+    vars: { p: { n: "pressure", u: "Pa", alt: { u: "kPa", f: 1e3 } }, F: { n: "force normal to the surface", u: "N", r: [10, 5000], s: 2 }, A: { n: "area", u: "m²", r: [0.01, 2], s: 2 } },
+    f: v => v.F / v.A, re: { F: "F = p A", A: "A = F ÷ p" } },
+  { id: "phrg", topic: "forces", name: "Pressure in a liquid", eq: "p = h ρ g", out: "p", consts: { g }, ho: true,
+    vars: { p: { n: "pressure due to the liquid", u: "Pa", alt: { u: "kPa", f: 1e3 } }, h: { n: "depth", u: "m", r: [0.2, 30], s: 2, alt: { u: "cm", f: 1e-2 } }, rho: { n: "density of liquid", u: "kg/m³", ch: [1000, 1030, 800, 13600] } },
+    f: v => v.h * v.rho * 9.8, re: { h: "h = p ÷ (ρ g)", rho: "ρ = p ÷ (h g)" } },
+  { id: "spd", topic: "forces", name: "Speed", eq: "s = v t", out: "s",
+    vars: { s: { n: "distance travelled", u: "m", alt: { u: "km", f: 1e3 } }, v: { n: "speed", u: "m/s", r: [1, 35], s: 2 }, t: { n: "time", u: "s", r: [5, 600], s: 2, alt: { u: "min", f: 60 } } },
+    f: v => v.v * v.t, re: { v: "v = s ÷ t", t: "t = s ÷ v" } },
+  { id: "acc", topic: "forces", name: "Acceleration", eq: "a = Δv ÷ t", out: "a",
+    vars: { a: { n: "acceleration", u: "m/s²" }, dv: { n: "change in velocity", u: "m/s", r: [2, 30], s: 2 }, t: { n: "time taken", u: "s", r: [1, 20], s: 2 } },
+    f: v => v.dv / v.t, re: { dv: "Δv = a t", t: "t = Δv ÷ a" } },
+  { id: "suvat", topic: "forces", name: "Uniform acceleration", eq: "v² − u² = 2 a s", out: "v",
+    vars: { v: { n: "final velocity", u: "m/s" }, u: { n: "initial velocity", u: "m/s", r: [0, 15], s: 2 }, a: { n: "acceleration", u: "m/s²", r: [0.5, 9.8], s: 2 }, s: { n: "distance", u: "m", r: [2, 100], s: 2 } },
+    f: v => Math.sqrt(v.u ** 2 + 2 * v.a * v.s), re: { a: "a = (v² − u²) ÷ 2s", s: "s = (v² − u²) ÷ 2a" } },
+  { id: "p", topic: "forces", name: "Momentum", eq: "p = m v", out: "p", ho: true,
+    vars: { p: { n: "momentum", u: "kg m/s" }, m: { n: "mass", u: "kg", r: [0.1, 1500], s: 2, alt: { u: "g", f: 1e-3 } }, v: { n: "velocity", u: "m/s", r: [0.5, 30], s: 2 } },
+    f: v => v.m * v.v, re: { m: "m = p ÷ v", v: "v = p ÷ m" } },
+  { id: "fdp", topic: "forces", name: "Force and change in momentum", eq: "F = m Δv ÷ Δt", out: "F", ho: true,
+    vars: { F: { n: "force", u: "N" }, m: { n: "mass", u: "kg", r: [0.05, 80], s: 2 }, dv: { n: "change in velocity", u: "m/s", r: [1, 30], s: 2 }, dt: { n: "time taken for the change", u: "s", r: [0.01, 2], s: 2, alt: { u: "ms", f: 1e-3 } } },
+    f: v => v.m * v.dv / v.dt, re: { m: "m = F Δt ÷ Δv", dv: "Δv = F Δt ÷ m", dt: "Δt = m Δv ÷ F" } },
+  { id: "wave", topic: "waves", name: "Wave speed", eq: "v = f λ", out: "v",
+    vars: { v: { n: "wave speed", u: "m/s" }, f: { n: "frequency", u: "Hz", r: [2, 5000], s: 2, alt: { u: "kHz", f: 1e3 } }, lam: { n: "wavelength", u: "m", r: [0.05, 20], s: 2, alt: { u: "cm", f: 1e-2 } } },
+    f: v => v.f * v.lam, re: { f: "f = v ÷ λ", lam: "λ = v ÷ f" } },
+  { id: "period", topic: "waves", name: "Period", eq: "T = 1 ÷ f", out: "T",
+    vars: { T: { n: "period", u: "s" }, f: { n: "frequency", u: "Hz", r: [0.5, 200], s: 2 } },
+    f: v => 1 / v.f, re: { f: "f = 1 ÷ T" } },
+  { id: "mag", topic: "waves", name: "Magnification", eq: "magnification = image height ÷ object height", out: "M",
+    vars: { M: { n: "magnification", u: "" }, hi: { n: "image height", u: "cm", r: [0.5, 30], s: 2 }, ho: { n: "object height", u: "cm", r: [0.5, 10], s: 2 } },
+    f: v => v.hi / v.ho, re: { hi: "image height = magnification × object height", ho: "object height = image height ÷ magnification" } },
+  { id: "bil", topic: "magnetism", name: "Force on a conductor", eq: "F = B I l", out: "F", ho: true,
+    vars: { F: { n: "force", u: "N" }, B: { n: "magnetic flux density", u: "T", r: [0.05, 1.5], s: 2 }, I: { n: "current", u: "A", r: [0.5, 10], s: 2 }, l: { n: "length of conductor in the field", u: "m", r: [0.02, 0.8], s: 2, alt: { u: "cm", f: 1e-2 } } },
+    f: v => v.B * v.I * v.l, re: { B: "B = F ÷ (I l)", I: "I = F ÷ (B l)", l: "l = F ÷ (B I)" } },
+  { id: "trans", topic: "magnetism", name: "Transformer turns", eq: "Vp ÷ Vs = np ÷ ns", out: "Vs",
+    vars: { Vs: { n: "secondary voltage", u: "V" }, Vp: { n: "primary voltage", u: "V", ch: [12, 24, 120, 230, 400, 11000] }, np: { n: "turns on primary coil", u: "", int: [50, 2000] }, ns: { n: "turns on secondary coil", u: "", int: [20, 4000] } },
+    f: v => v.Vp * v.ns / v.np, re: { Vp: "Vp = Vs × np ÷ ns", np: "np = ns × Vp ÷ Vs", ns: "ns = np × Vs ÷ Vp" } },
+  { id: "tpow", topic: "magnetism", name: "Transformer power", eq: "Vp Ip = Vs Is (100% efficient)", out: "Is", ho: true,
+    vars: { Is: { n: "secondary current", u: "A" }, Vp: { n: "primary voltage", u: "V", ch: [230, 400, 11000, 25000] }, Ip: { n: "primary current", u: "A", r: [0.1, 20], s: 2 }, Vs: { n: "secondary voltage", u: "V", dep: v => pick(v.Vp >= 11000 ? [132000, 275000, 400000] : [6, 12, 24]) } },
+    f: v => v.Vp * v.Ip / v.Vs, re: { Vp: "Vp = Vs Is ÷ Ip", Ip: "Ip = Vs Is ÷ Vp", Vs: "Vs = Vp Ip ÷ Is" } }
+];
+
+let CQ = null;
+const SYMS = { Ek: "E_k", Ep: "E_p", Ee: "E_e", dT: "Δθ", rho: "ρ", lam: "λ", dv: "Δv", dt: "Δt", eff: "efficiency", tot: "total input", use: "useful output", p1: "p₁", p2: "p₂", V1: "V₁", V2: "V₂", hi: "image height", ho: "object height", M: "M" };
+const symOf = k => SYMS[k] || k;
+function genValue(spec, v) {
+  if (spec.dep) return spec.dep(v);
+  if (spec.ch) return pick(spec.ch);
+  if (spec.int) return Math.round(rand(spec.int[0], spec.int[1]) / 10) * 10 || 10;
+  return sf(rand(spec.r[0], spec.r[1]), spec.s || 2);
+}
+function newCalc() {
+  const ids = selTopics();
+  const pool = GENS.filter(gn => ids.includes(gn.topic));
+  if (!pool.length) { CQ = null; return; }
+  const G = pick(pool);
+  const v = {};
+  Object.keys(G.vars).forEach(k => { if (k !== G.out) v[k] = genValue(G.vars[k], v); });
+  v[G.out] = G.f(v);
+  const solvable = [G.out].concat(Object.keys(G.re || {}));
+  const target = Math.random() < 0.5 ? G.out : pick(solvable);
+  const givens = Object.keys(G.vars).filter(k => k !== target).map(k => {
+    const spec = G.vars[k];
+    let val = k === G.out ? sf(v[k], 3) : v[k], unit = spec.u;
+    if (S.conv && spec.alt && Math.random() < 0.5) { val = sf(val / spec.alt.f, 3); unit = spec.alt.u; }
+    return { k, n: spec.n, val, unit, si: spec.u, conv: unit !== spec.u };
+  });
+  if (G.consts) Object.values(G.consts).forEach(c => givens.push({ k: "g", n: c.n, val: c.val, unit: c.u, si: c.u, constant: true }));
+  CQ = { G, target, answer: v[target], givens, done: false, input: "", result: null };
+}
+views.calc = function () {
+  setKeys(null);
+  if (!CQ || !selTopics().includes(CQ.G.topic)) newCalc();
+  drawCalc();
+};
+function drawCalc() {
+  const head = `<div><div class="eyebrow">Unlimited practice with fresh numbers</div><h2>Calculations</h2></div>${chipsHTML()}
+    <label class="check"><input type="checkbox" id="conv" ${S.conv ? "checked" : ""}> Mix in unit conversions (g, cm, kJ, mA, minutes…)</label>`;
+  if (!CQ) { app.innerHTML = head + `<p class="empty">No calculations for these topics. Atomic structure and space physics are mostly non-numerical; try the flashcards for those.</p>`; bindCalcHead(); return; }
+  const { G, target } = CQ;
+  const tv = G.vars[target];
+  const t = topicById[G.topic];
+  const unitTxt = tv.u ? tv.u : "no unit";
+  let fb = "";
+  if (CQ.result) {
+    const conv = CQ.givens.filter(x => x.conv);
+    const steps = [
+      `Equation: <span class="mono">${esc(G.eq)}</span>`,
+      target !== G.out ? `Rearrange: <span class="mono">${esc(G.re[target])}</span>` : "",
+      conv.length ? `Convert to SI units: ${conv.map(x => `${esc(fmt(x.val))} ${esc(x.unit)} = ${esc(fmt(x.val * G.vars[x.k].alt.f))} ${esc(x.si)}`).join("; ")}` : "",
+      `Substitute: <span class="mono">${CQ.givens.map(x => `${esc(symOf(x.k))} = ${esc(fmt(x.conv ? x.val * G.vars[x.k].alt.f : x.val))}${x.si ? " " + esc(x.si) : ""}`).join(", ")}</span>`,
+      `Answer: <span class="mono">${esc(symOf(target))} = ${esc(fmt(CQ.answer))}${tv.u ? " " + esc(tv.u) : ""}</span>`
+    ].filter(Boolean);
+    const cls = CQ.result === "right" ? "good" : "bad";
+    const title = CQ.result === "right" ? "Correct" : CQ.result === "shown" ? "Worked answer" : CQ.result === "power" ? "Right digits, wrong size. Check your unit conversions." : "Not quite";
+    fb = `<div class="feedback ${cls}"><b>${title}</b><ol class="steps">${steps.map(s => `<li>${s}</li>`).join("")}</ol></div>`;
+  }
+  app.innerHTML = head + `
+    <div class="row between"><span><span class="badge topic">P${t.num} ${esc(t.name)}</span> ${G.ho ? '<span class="badge">HIGHER</span>' : ""}</span>
+      <span class="mono muted" style="font-size:.85rem">${S.calc.r}/${S.calc.t} right</span></div>
+    <h3>${esc(G.name)}</h3>
+    <p>Calculate the <b>${esc(tv.n)}</b>${tv.u ? ` in <b>${esc(tv.u)}</b>` : ""}.</p>
+    <ul class="givens">${CQ.givens.map(x => `<li><span>${esc(x.n)}${x.constant ? " (take as)" : ""}</span><span class="val">${esc(fmt(x.val))}${x.unit ? " " + esc(x.unit) : ""}</span></li>`).join("")}</ul>
+    <div class="answer-row">
+      <input id="ans" inputmode="decimal" autocomplete="off" placeholder="your answer" value="${esc(CQ.input)}" ${CQ.result ? "disabled" : ""} aria-label="Your answer in ${esc(unitTxt)}">
+      <span class="unit">${esc(unitTxt)}</span>
+      ${CQ.result ? `<button class="primary" id="c-next">Next question</button>` : `<button class="primary" id="c-check">Check</button><button class="ghost" id="c-show">Show answer</button>`}
+    </div>
+    ${CQ.result ? "" : `<div class="row"><button class="chip" data-ins="−">− minus</button><button class="chip" data-ins="×10^">× 10ⁿ</button><button class="chip" data-ins="clear">Clear</button></div>`}
+    ${fb}
+    <p class="muted" style="font-size:.82rem">Answers within 2% count, so rounding to 2 or 3 significant figures is fine. Type powers of ten as 3.2e5 or 3.2x10^5.</p>`;
+  bindCalcHead();
+  const ans = document.getElementById("ans");
+  const chk = document.getElementById("c-check");
+  if (chk) {
+    chk.onclick = checkCalc;
+    document.getElementById("c-show").onclick = () => { CQ.result = "shown"; S.calc.t++; save(); drawCalc(); };
+    ans.onkeydown = e => { if (e.key === "Enter") checkCalc(); };
+    ans.oninput = () => { CQ.input = ans.value; };
+    app.querySelectorAll("[data-ins]").forEach(b => b.onclick = () => {
+      const s = b.dataset.ins;
+      ans.value = s === "clear" ? "" : s === "−" ? (ans.value.startsWith("-") ? ans.value.slice(1) : "-" + ans.value) : ans.value + "x10^";
+      CQ.input = ans.value; ans.focus();
+    });
+    if (window.matchMedia("(hover: hover)").matches) ans.focus();
+  }
+  const nx = document.getElementById("c-next");
+  if (nx) { nx.onclick = () => { newCalc(); drawCalc(); }; nx.focus(); setKeys(e => { if (e.key === "Enter" && e.target.id !== "ans") { e.preventDefault(); newCalc(); drawCalc(); } }); }
+}
+function bindCalcHead() {
+  bindChips(() => { newCalc(); drawCalc(); });
+  document.getElementById("conv").onchange = e => { S.conv = e.target.checked; save(); newCalc(); drawCalc(); };
+}
+function checkCalc() {
+  const ans = document.getElementById("ans");
+  const x = parseNum(ans.value);
+  if (isNaN(x)) { ans.setCustomValidity("Type a number"); ans.reportValidity(); return; }
+  CQ.input = ans.value;
+  const a = CQ.answer;
+  const close = (p, q) => Math.abs(p - q) <= 0.02 * Math.abs(q);
+  let res = close(x, a) ? "right" : "wrong";
+  if (res === "wrong" && [1e3, 1e-3, 1e2, 1e-2, 1e6, 1e-6, 60, 1 / 60, 100, 0.01].some(k => close(x, a * k))) res = "power";
+  CQ.result = res;
+  S.calc.t++; if (res === "right") S.calc.r++;
+  touchStreak(); save(); drawCalc();
+}
+
+/* ---- equations ---- */
+let eqHide = false;
+views.equations = function () {
+  setKeys(null);
+  const ids = selTopics();
+  const eqs = (D.equations || []).filter(e => ids.includes(e.topic));
+  const groups = ids.map(id => ({ t: topicById[id], list: eqs.filter(e => e.topic === id) })).filter(gr => gr.list.length);
+  app.innerHTML = `<div class="row between"><div><div class="eyebrow">Physics equations list</div><h2>Equations</h2></div>
+      <div class="row"><label class="check"><input type="checkbox" id="eqhide" ${eqHide ? "checked" : ""}> Test me: hide the equations</label><button id="eq-units">Units quiz</button></div></div>
+    ${chipsHTML()}
+    <p class="muted" style="font-size:.88rem">Some of these you must learn and some are printed on the equation sheet in the exam. Check with your teacher which is which, and learn the units for all of them. With “Test me” on, say the equation out loud, then tap to check.</p>
+    ${groups.length ? groups.map(gr => `<div><h3 style="margin-bottom:4px">P${gr.t.num} ${esc(gr.t.name)}</h3>
+      ${gr.list.map(e => `<div class="eq-item">
+        <div><div style="font-weight:600">${esc(e.name)} ${e.ho ? '<span class="badge">HIGHER</span>' : ""}</div><div class="e ${eqHide ? "hidden" : ""}" tabindex="0" role="button" aria-label="Show equation">${esc(e.eq)}</div></div>
+        <div class="sym"><div>${esc(e.words || "")}</div>${(e.symbols || []).map(s => `<div><span class="mono">${esc(s[0])}</span> ${esc(s[1])}${s[2] ? `, <span class="mono">${esc(s[2])}</span>` : ""}</div>`).join("")}</div>
+      </div>`).join("")}</div>`).join("") : `<p class="empty">No equations for these topics.</p>`}`;
+  bindChips(views.equations);
+  document.getElementById("eqhide").onchange = e => { eqHide = e.target.checked; views.equations(); };
+  document.getElementById("eq-units").onclick = () => { location.hash = "quiz"; setTimeout(startUnits, 0); };
+  app.querySelectorAll(".e").forEach(el => { const tg = () => el.classList.toggle("hidden"); el.onclick = tg; el.onkeydown = ev => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); tg(); } }; });
+};
+
+/* ---- practicals ---- */
+views.practicals = function () {
+  setKeys(null);
+  const list = D.practicals || [];
+  app.innerHTML = `<div><div class="eyebrow">The 10 you need to know for Physics</div><h2>Required practicals</h2></div>
+    <p class="muted" style="font-size:.88rem">Exam questions ask you to describe the method, name the variables, spot errors and suggest improvements. Open each one and cover the method to test yourself.</p>
+    <div style="display:flex;flex-direction:column;gap:8px">
+    ${list.map((p, i) => { const t = topicById[p.topic]; return `<details class="prac">
+      <summary><span>${i + 1}. ${esc(p.name)}</span>${t ? `<span class="badge topic">P${t.num}</span>` : ""}</summary>
+      <div class="body">
+        <p><b>Aim:</b> ${esc(p.aim)}</p>
+        <div><b>Method</b><ol>${(p.method || []).map(s => `<li>${esc(s)}</li>`).join("")}</ol></div>
+        <dl class="vars"><dt>IV</dt><dd>${esc(p.iv)}</dd><dt>DV</dt><dd>${esc(p.dv)}</dd><dt>CV</dt><dd>${esc(p.cv)}</dd></dl>
+        ${p.safety ? `<p><b>Safety:</b> ${esc(p.safety)}</p>` : ""}
+        ${(p.tips || []).length ? `<div><b>Exam tips</b><ul>${p.tips.map(s => `<li>${esc(s)}</li>`).join("")}</ul></div>` : ""}
+      </div></details>`; }).join("")}</div>`;
+};
+
+/* ---------- router ---------- */
+function route() {
+  let h = location.hash.replace("#", "") || "home";
+  if (!views[h]) h = "home";
+  document.querySelectorAll("#tabs a").forEach(a => a.setAttribute("aria-current", a.getAttribute("href") === "#" + h ? "page" : "false"));
+  if (h !== "cards") FC = null;
+  views[h]();
+}
+window.addEventListener("hashchange", route);
+if (!TOPICS.length) app.innerHTML = '<p class="empty">The question bank did not load. Refresh the page to try again.</p>';
+else route();
+drawStreak();
+})();
+</script>
+<script>
+if ("serviceWorker" in navigator && location.protocol !== "file:") {
+  window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
+}
+</script>
+</body>
+</html>
