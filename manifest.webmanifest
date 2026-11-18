@@ -1,7 +1,7 @@
 {
-  "name": "AQA Physics Revision",
-  "short_name": "Physics",
-  "description": "Flashcards, quizzes and calculation practice for AQA GCSE Physics (8463), Higher tier.",
+  "name": "Triple Science Revision",
+  "short_name": "Science",
+  "description": "Flashcards, quizzes and calculation practice for AQA GCSE Biology, Chemistry and Physics (8461, 8462, 8463), Higher tier.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

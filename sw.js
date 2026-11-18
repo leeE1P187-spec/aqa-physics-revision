@@ -1,5 +1,5 @@
-// Offline cache for AQA Physics Revision. Version changes whenever the page changes.
-const CACHE = "aqa-physics-17f6330f51";
+// Offline cache for Triple Science Revision. Version changes whenever the page changes.
+const CACHE = "aqa-physics-0a75b2e12b";
 const FILES = ["./", "index.html", "manifest.webmanifest", "icon-180.png", "icon-192.png", "icon-512.png"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
